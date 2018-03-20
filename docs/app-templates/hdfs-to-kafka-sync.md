@@ -10,52 +10,42 @@ Please send feedback or feature requests to: [feedback@datatorrent.com](mailto:f
 
 ## <a name="steps_to_launch">Steps to launch application</a>
 
-1. Click on the AppHub tab from the top navigation bar.
+1. Click on the AppFactory tab from the top navigation bar.
    ![AppHub link from top navigation bar](images/common/apphub_link.png)
-
-1. Page listing the applications available on AppHub is displayed.
-Search for Kafka to see all applications related to Kafka.
-   ![AppHub search for Kafka](images/hdfs-to-kafka-sync/apphub-search.png)
-    Click on import button for `HDFS to Kafka Sync App`
-
-1. Notification is displayed on the top right corner after application package is successfully
+   Page listing the applications available on AppFactory is displayed.
+1. Search for Kafka to see all applications related to Kafka.
+1. Click on import button for `HDFS to Kafka Sync App`Notification is displayed on the top right corner after application package is successfully
    imported.
    ![App import Notification](images/hdfs-to-kafka-sync/import-notification.png)
 
 1. Click on the link in the notification which navigates to the page for this application package.
-   ![App details page](images/hdfs-to-kafka-sync/app-details-page.png)
-    Detailed information about the application package like version, last modified time, and short description is available on this page. Click on launch button for `HDFS to Kafka Sync` application.
 
-1. <a name="launch-dialogue"></a>`Launch HDFS-to-Kafka-Sync` dialogue is displayed. One can configure name of this instance of the application from this dialogue.
-   ![Launch dialogue](images/hdfs-to-kafka-sync/launch.png)
+    ![App details page](images/hdfs-to-kafka-sync/app-details-page.png)
 
-1. Select `Use saved configuration` option. This displays list of pre-saved configurations.
-Please select `sandbox-memory-conf.xml` or `cluster-memory-conf.xml` depending on whether
-your environment is the DataTorrent sandbox, or other cluster.
-   ![Select saved configuration](images/hdfs-to-kafka-sync/saved-conf.png)
+    Detailed information about the application package like version, last modified time, and short description is available on this page. Click on launch button for `HDFS to Kafka Sync` application. In the confirmation modal, click the Configure button.
 
-1. Select `Specify custom properties` option. Click on `add default properties` button.
-   ![Specify custom properties](images/hdfs-to-kafka-sync/spcify-custom.png)
+1. The <a name="launch-dialogue"></a>`HDFS-to-Kafka-Sync` application configuration page is displayed. The Required Properties section must be completed before the application can be launched.
 
-1. This a expands key-value editor pre-populated with mandatory properties for this application. Change values as needed.
-   ![Properties editor](images/hdfs-to-kafka-sync/property-editor.png)
-   <a name="property-editor"></a>
-   For example, suppose we wish to process lines from all files in `/user/appuser/input` from `source-cluster` and send the output to kafka on `kafka-server-node` with topic `test`. Properties should be set as follows:
+    ![Launch dialogue](images/hdfs-to-kafka-sync/launch.png)
+
+    <a name="property-editor"></a>
+    For example, suppose we wish to process lines from all files in `/user/appuser/input` from `source-cluster` and send the output to kafka on `kafka-server-node` with topic `test`. Properties should be set as follows:
 
     |name|value|
-    |-|-|
-    |dt.operator.kafkaOutput.prop.producerProperties|serializer.class=kafka.serializer. DefaultEncoder,<br/>producer.type= async,<br/>metadata.broker. list=kafka-server-node:9092|
-    |dt.operator.kafkaOutput.prop.topic|test|
-    |dt.operator.recordReader.prop.files|/user/appuser/input|
+    |---|---|
+    |Kafka Topic Name |test|
+    |Input Directory Or File Path On HDFS |/user/appuser/input|
+    |Kafka Producer Properties |serializer.class=kafka.serializer.DefaultEncoder, producer.type=async, metadata.broker.list=kafka-server-node:9092|
 
     Details about configuration options are available in [Configuration options](#configuration_options) section.
 
-1. Click on `Launch` button on lower right corner to launch the application.
-Notification is displayed on the top right corner after application is launched successfully and includes the Application ID which can be used to monitor this instance and find its logs.
+1. When you are finished inputting application configuration properties, click on the `save` button on the top right corner of the page to save the configuration.
+
+1. Click on the `launch` button at the top right right corner to launch the application.
+A notification will be displayed on the top right corner after the application is launched successfully and includes the Application ID which can be used to monitor this instance and find its logs.
    ![Application launch notification](images/common/app_launch_notification.png)
 
 1. Click on the `Monitor` tab from the top navigation bar.
-   ![Monitor tab](images/common/monitor_link.png)
 
 1. A page listing all running applications is displayed. Search for current application based on name or application id or any other relevant field. Click on the application name or id to navigate to application instance details page.
    ![Apps monitor listing](images/common/apps_monitor_listing.png)
@@ -125,7 +115,8 @@ You can override default values for advanced properties by specifying custom val
     This will generate the application package with the `.apa` extension inside the `target` directory.
 
 1. Go to DataTorrent UI Management console on web browser. Click on the `Develop` tab from the top navigation bar.
-   ![Develop tab](images/common/develop_link.png)
+
+1. Click on `Application Packages` from the list.
 
 1. Click on `upload package` button and upload the generated `.apa` file.
    ![Upload](images/common/upload.png)

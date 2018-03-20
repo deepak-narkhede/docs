@@ -73,7 +73,7 @@ your environment is the DataTorrent sandbox, or other cluster.
 
 ## <a name="configuration_options"></a>Configuration options
 
-### Mandatory properties
+### Required properties
 End user must specify the values for these properties (these properties are all strings and
 are HDFS paths: the first is the destination and the second the source).
 

@@ -725,7 +725,7 @@ And if the *schemaResult* returns multiple schemas, all *dataQuery* messages mus
    “incompleteResultOK”: true/false
 }
 ```
-This feature is supported by the DimensionsStore operator and is being used by the App Data Tracker.
+This feature is supported by the DimensionsStore operator.
 
 #### Dimensions Schema: Additional Values for Combinations
 
@@ -948,8 +948,3 @@ The code for the ads example is available [here](https://github.com/DataTorrent/
 ### UI Widgets
 
 Coming soon
-
-### App Data Tracker
-
-App Data Tracker is discussed [here](http://docs.datatorrent.com/app_data_tracker/).
-

@@ -3,7 +3,7 @@ DataTorrent RTS Overview
 
 DataTorrent RTS is an enterprise product built around Apache Apex, a Hadoop-native unified stream and batch processing platform.  DataTorrent RTS combines Apache Apex engine with a set of enterprise-grade management, monitoring, development, and visualization tools.  
 
-![DataTorrent RTS Architecture Layers Diagram](images/rts/stack.png)
+![DataTorrent RTS Architecture](images/rts/DT_Architecture_image.png)
 
 DataTorrent RTS platform enables creation and management of real-time big data applications in a way that is
 
@@ -15,4 +15,4 @@ DataTorrent RTS platform enables creation and management of real-time big data a
 * **easily operable** - full suite of management, monitoring, development, and visualization tools
 
 
-The system is capable of processing billions of events per second, while automatically recovering without any state or data loss when individual nodes fail.  A simple API enables developers to write new and re-use existing generic Java code, lowering the expertise needed to write big data applications.  A library of existing demos and re-usable operators allows applications to be developed quickly.  Native Hadoop support allows DataTorrent RTS to be installed in seconds on any existing Hadoop cluster.  Application administration can be done from a browser with dtManage, a full suite of management, monitoring, and visualization tools.  New applications can be visually built from existing components using [dtAssemble](dtassemble.md), a graphical application assembly tool.  Application data can be easily visualized with [dtDashboard](dtdashboard.md) real-time data visualizations.
+The system is capable of processing billions of events per second, while automatically recovering without any state or data loss when individual nodes fail.  A simple API enables developers to write new and re-use existing generic Java code, lowering the expertise needed to write big data applications.  A library of existing demos and re-usable operators allows applications to be developed quickly.  Native Hadoop support allows DataTorrent RTS to be installed in seconds on any existing Hadoop cluster.  Application administration can be done from a browser with dtManage, a full suite of management, monitoring, and visualization tools. Application data can be easily visualized with [dtDashboard](dtdashboard.md) real-time data visualizations.

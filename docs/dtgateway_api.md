@@ -11,6 +11,1079 @@ DataTorrent dtGateway API v2 Specification
 *  *500*: Something is wrong on the server side
 
 ## REST URI Specification
+
+### GET /ws/v2/applications/{appid}/metrics
+
+Function: List all available metrics for an application.
+
+Example: 
+
+```json
+{
+    "applicationId": "{applicationId}",
+    "metrics": [
+        {
+            "name": "{metrcName}",
+            "type": "{metricType}",
+            "values": "{value}"
+        },
+        ...
+    ]
+}
+```
+### GET /ws/v2/applications/{appid}
+
+Function: 
+
+Example:
+
+```json
+{
+    "id": "{appId}",
+    "name": "{name}",
+    "queue": "{queue}",
+    "state": "{applicationState}",
+    "finalStatus": "{finalStatus}",
+    "startedTime": "{applicationStartedTime}",
+    "finishedTime": "{applicationFinishedTime}",
+    "diagnostics": "{diagnostics}",
+    "applicationType": "{applicationType}",
+    "trackingUrl": "{trackingUrl}",
+    "elapsedTime": "{elapsedTime}",
+    "user": "{user}",
+    "currentAttemptId": "{currentAttemptId}",
+    "runningContainers": "{runningContainers}",
+    "allocatedMB": "{allocatedMB}",
+    "allocatedVCores": "{allocatedVCores}",
+    "canWrite": "true/false",
+    "appPath": "{appPath}",
+    "gatewayAddress": "{gatewayAddress}",
+    "gatewayConnected": "true/false",
+    "appDataSources": [
+        {
+            "query":
+            {
+                "operatorName": "{operatorName-1}",
+                "url": "{url-1}",
+                "topic": "{topic-1}"
+            },
+            "result":
+            {
+                "operatorName": "{operatorName-1}",
+                "url": "{url-1}",
+                "topic": "{topic-1}",
+                "appendQIDToTopic": "true/false"
+            },
+            "type": "{type}",
+            "name": "{dataSourceName}"
+        },
+        ...
+    ],
+    "metrics":
+    {
+        "Operator1":
+        {
+            "{metricName1}": "{value}",
+            "{metricName2}": "{value}"
+                ...
+        },
+        "Operator2":
+        {
+            "{metricName1}": "{value}",
+            "{metricName2}": "{value}"
+                ...
+        },
+        ...
+    },
+    "attributes":
+    {
+        "{attributeName}": "{attributeValue}",
+        ...
+        "{attributeName-n}": "{attributeValue-n}"
+    },
+    "appMasterTrackingUrl": "{appMasterTrackingUrl}",
+    "version": "{apex version}",
+    "stats":
+    {
+        "latency": "{latency}",
+        "plannedContainers": "{plannedContainers}",
+        "failedContainers": "{failedContainers}",
+        "numOperators": "{numOperators}",
+        "windowStartMillis": "{windowStartMillis}",
+        "criticalPath": [
+            "{criticalPathNumber-1}",
+            ...
+            "{criticalPathNumber-n}"
+        ],
+        "currentWindowId": "{min of operators:currentWindowId}",
+        "recoveryWindowId": "{min of operators:recoveryWindowId}",
+        "tuplesProcessedPSMA": "{sum of operators:tuplesProcessedPSMA}",
+        "totalTuplesProcessed": "{sum of operators:totalTuplesProcessed}",
+        "tuplesEmittedPSMA": "{sum of operators:tuplesEmittedPSMA}",
+        "totalTuplesEmitted": "{sum of operators:totalTuplesEmitted}",
+        "totalMemoryAllocated": "{totalMemoryAllocated}",
+        "memoryRequired": "{memoryRequired}",
+        "totalVCoresAllocated": "{totalVCoresAllocated}",
+        "vcoresRequired": "{vcoresRequired}",
+        "totalBufferServerReadBytesPSMA": "{totalBufferServerReadBytesPSMA}",
+        "totalBufferServerWriteBytesPSMA": "{totalBufferServerWriteBytesPSMA}",
+        "allocatedContainers": "{numberOfAllocatedContainers}"
+    },
+    "connectedToThisGateway": "true/false",
+    "appPackageSource":
+    {
+        "user": "{user}",
+        "name": "{appPackageName}",
+        "version": "{appPackageVersion}",
+        "appName": "{appName}",
+        "configPackage":
+        {
+            "user": "{user}",
+            "name": "{configPackageName}",
+            "version": "{configPackageVersion}"
+        }
+    },
+    "launchDisabled": "true/false",
+    "services": [
+        {
+            "name": "{serviceName}",
+            "state": "{state}",
+            "type": "docker/apex",
+            "requiredServices": ["{requiredService1}", "{requiredServices}", ...],
+            "proxy":
+            {
+                "name": "{proxyName}",
+                "address": "proxyAddress"
+            },
+            "installedTime": "{installTime}",
+            "startedTime": "{startTime}",
+            "enabled": "true/false",
+            "memoryMB": "{memoryMB}",
+            "srcUrl": "{srcUrl}",
+            "docker/apex property name-1": "{value-1}",
+            ...
+            "docker/apex property name-n": "{value-n}"
+        },
+        ...
+    ]
+}
+```
+
+### GET /ws/v2/applications/{appid}/failureRootCause
+
+Function: Return the root cause of why an application failed to run.
+
+Example:
+
+```json
+{
+    "title": "FC_ERROROUTPUT",
+    "type": "markdown",
+    "content": "{root cause of why the application {appid} failed}"
+}
+```
+
+### GET /ws/v2/applications/{appid}/physicalPlan/containers[?states={NEW,ALLOCATED,ACTIVE,KILLED}&types={all,appmaster}]
+
+Function:
+
+Example: 
+
+```json
+{
+    "containers": [
+        {
+            "id": "{id}",
+            "host": "{host}",
+            "state": "{NEW,ALLOCATED,ACTIVE,KILLED}",
+            "jvmName": "{jvmName}",
+            "lastHeartbeat": {lastHeartbeat},
+            "numOperators": {numOperators},
+            "operators:" {
+                "id1": "name1",
+                "id2": "name2",
+                "id3": "name3"
+            },
+            "memoryMBAllocated": "{memoryMBAllocated}",
+            "memoryMBFree": "{memoryMBFree}",
+            "gcCollectionTime": "{gcCollectionTime}",
+            "gcCollectionCount": "{gcCollectionCount}",
+            "containerLogsUrl": "{containerLogsUrl}",
+            "startedTime": "{containerStartTime}",
+            "finishedTime": "{containerFinishedTime}",
+            "rawContainerLogsUrl": "{rawContainerLogsUrl}",
+            "containerType": "APP_MASTER|STREAMING"
+        },
+        ...
+    ]
+}
+```
+### GET /ws/v2/applications/{appid}/physicalPlan/containers/{containerId}
+
+Function:
+
+Example:
+
+```json
+{
+    "id": "{id}",
+    "host": "{host}",
+    "state": "{NEW,ALLOCATED,ACTIVE,KILLED}",
+    "jvmName": "{jvmName}",
+    "lastHeartbeat":
+    {
+        lastHeartbeat
+    },
+    "numOperators":
+    {
+        numOperators
+    },
+    "operators:"
+    {
+        "id1": "name1",
+        "id2": "name2",
+        "id3": "name3"
+    },
+    "memoryMBAllocated": "{memoryMBAllocated}",
+    "memoryMBFree": "{memoryMBFree}",
+    "gcCollectionTime": "{gcCollectionTime}",
+    "gcCollectionCount": "{gcCollectionCount}",
+    "containerLogsUrl": "{containerLogsUrl}",
+    "startedTime": "{containerStartTime}",
+    "finishedTime": "{containerFinishedTime}",
+    "rawContainerLogsUrl": "{rawContainerLogsUrl}",
+    "containerType": "APP_MASTER|STREAMING"
+}
+```
+### GET /ws/v2/applications/{appid}/physicalPlan/containers/{containerId}/logs
+
+Function:
+
+Example: 
+
+```json
+{
+    "logs": [
+        {
+            "name": "logName-1",
+            "length": "{length}",
+            "rawUrl": "{urlToLog}"
+        },
+        {
+            "name": "logName-2",
+            "length": "{length}",
+            "rawUrl": "{urlToLog}"
+        },
+        ...
+    ]
+}
+```
+### GET /ws/v2/applications/{appid}/physicalPlan/containers/{containerId}/logs/{logName}[?start={startPos}&end={endPos}&grep={regexp}&includeOffset={true/false}&lastNBytes={numberOfBytes}]
+
+Function: Return the raw log, or the last N bytes of the log if lastNBytes is given.
+
+Return: if includeOffset=false or not provided, return raw log content (Content-Type: text/plain). Otherwise (Content-Type: application/json):
+
+Example: 
+
+```json
+{
+    "lines": [
+        {
+            "byteOffset": "{byteOffsetFromStartOfTheLog}",
+            "line": "{one line from {logName}}"
+        },
+        {
+            "byteOffset": "{byteOffsetFromStartOfTheLog}",
+            "line": "{the next line from {logName}}}"
+        },
+        ...
+    ]
+}
+```
+
+### GET /ws/v2/applications/{appid}/physicalPlan/containers/logs/{logName}[?grep={regexp}&descendingOrder={true/false}&includeOffset={true/false}&lastNBytes={numberOfBytes}]
+
+Function: Return GC events for the application in sorted order.
+
+Return: if includeOffset=false or not provided, return raw log content (Content-Type: text/plain). Otherwise (Content-Type: application/json):
+
+Example: 
+
+```json
+{
+    "lines": [
+        {
+            "byteOffset": "{byteOffset}",
+            "line": "{GC event}",
+            "startTime": "{eventStartTime}",
+            "type": "GC",
+            "occupiedHeapMemoryBefore": "{occupiedHeapMemoryBefore}",
+            "occupiedHeapMemoryAfter": "{occupiedHeapMemoryAfter}",
+            "heapCapacity": "{heapCapacity}",
+            "heapReductionPercentage": "{heapReductionPercentage}",
+            "duration": "{duration}",
+            "container": "{containerId}"
+        },
+        ...
+    ]
+}
+```
+### GET /ws/v2/applications/{appid}/logicalPlan/operators/{operatorName}/logs/{logName}[?grep={regexp}&descendingOrder={true/false}&lastNBytes={numberOfBytes}]
+
+Function: Return GC events for the an logical operator in sorted order. A logical operator maps to one or more physical operator(s). 
+Each physical operator belongs to a container and all the GC events from all such containers are collected and returned.
+
+Example: 
+
+```json
+{
+    "lines": [
+        {
+            "byteOffset": "{byteOffset}",
+            "line": "{GC event}",
+            "startTime": "{eventStartTime}",
+            "type": "GC",
+            "occupiedHeapMemoryBefore": "{occupiedHeapMemoryBefore}",
+            "occupiedHeapMemoryAfter": "{occupiedHeapMemoryAfter}",
+            "heapCapacity": "{heapCapacity}",
+            "heapReductionPercentage": "{heapReductionPercentage}",
+            "duration": "{duration}",
+            "container": "{containerId}"
+        },
+        ...
+    ]
+}
+```
+### GET /ws/v2/applications/{appid}/issues
+
+Function: Return list of issues of the applicaiton.
+
+```json
+{
+    "issues": [
+        {
+            "key": "{issueKey}",
+            "propertyName": "{PROPERTY_NAME}",
+            "description": "{ISSUE_DESCRIPTION}",
+            "severity": "error"|"warning"
+        },
+        ...
+    ]    
+}
+```
+### GET /ws/v2/appPackages?hasServices={true/false}&hasUI={true/false}
+
+Function: 
+
+Example: 
+```json
+{
+    "appPackages": [
+        {
+            "owner": "{owner}",
+            "modificationTime": "{modificationTime}",
+            "appPackageName": "{appPackageName}",
+            "appPackageVersion": "{appPackageVersion}",
+            "appPackageDisplayName": "{appPackageDisplayName}",
+            "appPackageDescription": "{appPackageDescription}",
+            "applications": [
+                {
+                    "name": "{application-1}",
+                    "displayName": "{applicationDisplayName-1}",
+                    "type": "class/json",
+                    "launchDisabled": "true/false"
+                },
+                ...
+            ],
+            "canWrite": "true/false",
+            "ui": {
+                "dashboards": [
+                    {
+                        "name": "{dashboardName-1}",
+                        "file": "{dashboardFile-1}",
+                        "appNames": [
+                            "{applicationUsingThisDashborad-1}",
+                            "{applicationUsingThisDashborad-2}",
+                            ...
+                        ]
+                    },
+                    ...
+                ]
+            },
+            "services": {
+                "services": [
+                    {
+                        // Sample docker service
+                        "name": "{serviceName}",
+                        "type": "docker",
+                        "srcUrl": "{srcUrl}",
+                        "docker": {
+                            "run": "{options and arguments to run docker service}"
+                        },
+                        "proxy": {
+                            "name": "{proxyName}",
+                            "address": "{proxyAddress}"
+                        },
+                        "requiredServices": [
+                            "{requiredServiceName-1}",
+                            "{requiredServiceName-2}",
+                            ...
+                        ]
+                    },
+                    {
+                        // Sample Apex service
+                        "name": "{serviceName}",
+                        "type": "apex",
+                        "srcUrl": "{srcUrl}",
+                        "apex": {
+                            "appName": "ApexApplicationName",
+                            "launchArgs": {
+                                "{launchArgName}": "{launchArgValue}"
+                            }
+                        },
+                        "proxy": {
+                            "name": "{proxyName}",
+                            "address": "{proxyAddress}"
+                        },
+                        "metadata": {
+                            "QueryIP": "{queryIP}",
+                            "QueryPort": "{queryPort}"
+                        }
+                    }
+                ],
+                "applications": [
+                    {
+                        "name": "{applicationUsesService}",
+                        "requiredServices": [
+                            {
+                                "name": "requiredServiceName",
+                                "{servivePropertyName-1}": "{serviceProperty}",
+                                "{servivePropertyName-2}": "{serviceProperty}",
+                                ...
+                            },
+                            ...
+                        ]
+                    }
+                ]
+            }
+        },
+        ...
+    ]
+}
+```
+
+### GET /ws/v2/appPackages/{owner}/{packageName}/{packageVersion}?includeDescription={true/false}
+
+Function: Gets the meta information of the app package
+                    
+Returns: If **includeDescription** is set to be false or not provided, return meta data for such app package with properties as simple name-value pairs. If **includeDescription** is true, properties will also include description information as well.
+
+Example: 
+
+```json
+{
+    "appPackageName": "{appPackageName}",
+    "appPackageVersion": "{appPackageVersion}",
+    "appPackageGroupId": "{appPackageGroupId}",
+    "dtEngineVersion": "{dtEngineVersion}",
+    "appPackageDescription": "{appPackageDescription}",
+    "appPackageDisplayName": "{appPackageDisplayName}",
+    "classPath": [
+        "{classPath}"
+    ],
+    "applications": [
+        {applicationMetaData-1},
+        {applicationMetaData-2},
+        ...
+    ],
+    "appJars": [
+        "{appJar-1}",
+        "{appJar-2}"
+        ...
+    ],
+    "appJsonFiles": [
+        {"appJsonFile-1"},
+        {"appJsonFile-2"},
+        ...
+    ],
+    "appPropertiesFiles": [],
+    "requiredProperties": [
+        // when includeDescription=false
+        {"propertyName-1"},
+        {"propertyName-2"},
+        ...
+
+        // When includeDescription=true
+        {"propertyName-1"}: {
+            "value": null,
+            "description": "{descriptionOfProperty}"
+        },
+        ...
+    ],
+    "defaultProperties": {
+        // when includeDescription=false
+        {"propertyName-1"}: {defaultValueOfProperty-1},
+        {"propertyName-2"}: {defaultValueOfProperty-2},
+        ...
+
+        // When includeDescription=true
+        {"propertyName-1"}: {
+            "value": "{defaultValueOfProperty}",
+            "description": "{descriptionOfProperty}"
+        },
+        ...
+    },
+    "configs": [
+        {"config-1"},
+        {"config-2"},
+        ...
+    ],
+    "owner": "{owner}",
+    "modificationTime": "{modificationTime}",
+    "canWrite": "true/false"
+}
+```
+### GET /ws/v2/appPackages/{owner}/{packageName}/{packageVersion}/applications
+
+Function: 
+
+Example: 
+
+```json
+{
+    "applications": [
+        {
+            "name": "{name}",
+            "file": "{fileName}",
+            "type": "{type}",
+            "displayName": "{displayName}",
+            "dag": {dag in json format},
+            "error": "{error}",
+            "errorStackTrace": "{errorStackTrace}",
+            "requiredProperties": [
+                {"propertyName-1"},
+                {"propertyName-2"},
+                ...
+            ],
+            "defaultProperties": {
+                {"propertyName-1"}: {defaultValueOfProperty-1},
+                {"propertyName-2"}: {defaultValueOfProperty-2},
+                ...
+            }
+        },
+        ...
+    ]
+}
+```
+### GET /ws/v2/appPackages/{owner}/{packageName}/{packageVersion}/applications/{appName}[?includeDescription={true/false}]
+
+Function: Gets the meta data for that application
+
+Example: 
+
+```json
+{
+    "name": "{name}",
+    "file": "{fileName}",
+    "type": "{type}",
+    "displayName": "{displayName}",
+    "dag":{dag in json format},
+    "error": "{error}",
+    "errorStackTrace": "{errorStackTrace}",
+    "requiredProperties": [
+        // when includeDescription=false
+        {"propertyName-1"},
+        {"propertyName-2"},
+        ...
+
+        // When includeDescription=true
+        {"propertyName-1"}: {
+            "value": null,
+            "description": "{descriptionOfProperty}"
+        },
+        ...
+    ],
+    "defaultProperties": {
+        // when includeDescription=false
+        {"propertyName-1"}: {defaultValueOfProperty-1},
+        {"propertyName-2"}: {defaultValueOfProperty-2},
+        ...
+
+        // When includeDescription=true
+        {"propertyName-1"}: {
+            "value": "{defaultValueOfProperty}",
+            "description": "{descriptionOfProperty}"
+        },
+        ...
+    }
+}
+```
+
+
+### GET /ws/v2/appPackages/{owner}/{packageName}/{packageVersion}/classSchemas
+
+Function: This is deprecated.
+
+Return:
+
+### GET /ws/v2/appPackages/{owner}/{packageName}/{packageVersion}/classSchemas/{classSchemasName}[?version={version}]
+
+Function: This is deprecated.
+
+Return:
+	
+### GET /ws/v2/cluster/config
+
+Function: Get the list of all configurations on cluster.
+
+Example: 
+```json
+{
+    "{configName-1}": "{configValue-1}",
+    "{configName-2}": "{configValue-2}",
+    ...
+}
+```
+### GET /ws/v2/cluster/queues
+
+Function: Get the list of queues on cluster..
+
+Example: 
+```json
+    "queues": [
+        {
+            "capacity": "{Capacity of the queue}",
+            "currentCapacity": "{Current capacity of the queue}",
+            "maxCapacity": "{Maximum capacity of the queue}",
+            "name": "{Queue name}",
+            "state": "{State of the Queue}"
+        },
+        ...
+    ]
+}
+```
+### GET /ws/v2/config/properties
+
+Function: Returns the list of all configuration properties defined in the configuration files.
+
+Example: 
+```json
+   {
+    "{name}":
+    {
+        "value": "{PROPERTY_VALUE}",
+        "description": "{PROPERTY_DESCRIPTION}",
+        "scope": "{scope}"
+    },
+    ...
+}
+```
+### GET /ws/v2/config/docker
+
+Function: Get docker configuration status
+
+Example: 
+```json
+{
+  "isFound": "true/false", 
+  “version”: “{version}”,
+  "isCompatible": "true/false",
+  "dt.dockerHost": "{dockerHostAddress}"
+}
+```
+### PUT /ws/v2/config/docker
+
+Function: Set docker configuration
+
+Payload:
+{
+    "dt.dockerHost": ""{dockerHostAddress}"
+}
+
+### POST /ws/v2/licenses?filename={license-name}
+
+Function: The request payload of the API is the content of the license.
+
+Example: 
+```json
+Returns:
+{
+    "currentTime": "{currentTimeMills}",
+    "startDate": "{startTimeMills}",
+    "expireTime": "{expireTimeMills}",
+    "memoryMBAllowed": "{memoryMBAllowed}",
+    "memoryMBUsed": "{memoryMBUsed}",
+    "issuedTo": "{issuedTo}",
+    "issuedBy": "{issuedBy}",
+    "issuerWebsite": "{issuerWebsite}",
+    "supportedBy": "{supportedBy}",
+    "supportURL": "{supportURL}",
+    "category": "DT Premium/DT PLUS",
+    "exceedGracePeriod": "{exceedGracePeriod}",
+    "valid": {true/false},
+    "id": "{licenseId}",
+    "licenseType": "{licenseType}"
+}
+```
+### GET /ws/v2/licenses
+
+Function: This is deprecated. Use the API `GET /v2/licenses/current` instead.
+
+Example: 
+```json
+ "licenses": [
+    {
+        "currentTime": "{currentTimeMills}",
+        "startDate": "{startTimeMills}",
+        "expireTime": "{expireTimeMills}",
+        "memoryMBAllowed": "{memoryMBAllowed}",
+        "memoryMBUsed": "{memoryMBUsed}",
+        "issuedTo": "{issuedTo}",
+        "issuedBy": "{issuedBy}",
+        "issuerWebsite": "{issuerWebsite}",
+        "supportedBy": "{supportedBy}",
+        "supportURL": "{supportURL}",
+        "category": "DT Premium/DT PLUS",
+        "exceedGracePeriod": "{exceedGracePeriod}",
+        "valid": {true/false},
+        "id": "{licenseId}",
+        "licenseType": "{licenseType}"
+    }]
+}
+```
+### GET /ws/v2/licenses/{id}
+
+Function: Get the selected license. The parameter 'id' can be the string "current" or the valid current license id.
+
+Example:
+```json
+{
+    "currentTime": "{currentTimeMills}",
+    "startDate": "{startTimeMills}",
+    "expireTime": "{expireTimeMills}",
+    "memoryMBAllowed": "{memoryMBAllowed}",
+    "memoryMBUsed": "{memoryMBUsed}",
+    "issuedTo": "{issuedTo}",
+    "issuedBy": "{issuedBy}",
+    "issuerWebsite": "{issuerWebsite}",
+    "supportedBy": "{supportedBy}",
+    "supportURL": "{supportURL}",
+    "category": "DT Premium/DT PLUS",
+    "exceedGracePeriod": "{exceedGracePeriod}",
+    "valid": {true/false},
+    "id": "{licenseId}",
+    "licenseType": "{licenseType}"
+}
+```
+
+### GET /ws/v2/phoneHome/report[?period={total/previous/current}]
+
+Function: Get a report which is in the same format of the usage report gateway is generating and sending back to DataTorrent. When the query parameter "period" is omitted, by default it will return stats from the total period.
+
+Example:
+
+```json
+{
+    "licenseId": "{licenseId}",
+    "numNodesInCluster": "{numberOfNodesInCluster}",
+    "license":
+    {
+        "currentTime": "{currentTimeMills}",
+        "startDate": "{startTimeMills}",
+        "expireTime": "{expireTimeMills}",
+        "memoryMBAllowed": "{memoryMBAllowed}",
+        "memoryMBUsed": "{memoryMBUsed}",
+        "issuedBy": "{issuedBy}",
+        "issuerWebsite": "{issuerWebsite}",
+        "supportedBy": "{supportedBy}",
+        "supportURL": "{supportURL}",
+        "category": "{DT Premium/DT PLUS}",
+        "exceedGracePeriod": "{exceedGracePeriod}",
+        "valid": {true/false},
+        "expirationTimeNotificationLevel": "{INFO/WARN/ERROR}",
+        "id": "{licenseId}",
+        "licenseType": "{licenseType}"
+    },
+    "rts.version": "{rtsVersion}",
+    "apex.version": "{apexVersion}",
+    "java.vendor": "{javaVendor}",
+    "java.version": "{javaVersion}",
+    "os.arch": "{operatingSystemArchitecture}",
+    "os.name": "{operatingSystemName}",
+    "os.version": "{operatingSystemVersion}",
+    "hadoop.version": "{hadoopVersion}",
+    "metrics":
+    {
+        "tuplesProcessedPSMA": "{tuplesProcessedPSMA}",
+        "tuplesEmittedPSMA": "{tuplesEmittedPSMA}",
+        "cpuPercentage": "{cpuPercentage}",
+        "gatewayUpTimeMills": "{gatewayUpTimeMills}",
+        "currentMemoryAllocatedMB": "{currentMemoryAllocatedMB}",
+        "period": "{total/previous/current}",
+        "startTime": "{startTimeOfThePeriod}",
+        "appsRunningMax": "{appsRunningMaxInThePeriod}",
+        "ageOfAppsAvg": "{ageOfAppsAvgInThePeriod}",
+        "appsRunningAvg": "{appsRunningAvgInThePeriod}",
+        "memMBMax": "{memMBMaxInThePeriod}",
+        "memMBMin": "{memMBMinInThePeriod}",
+        "numAppsFinished": "{numAppsFinishedInThePeriod}",
+        "numOfContainersAvg": "{numOfContainersAvgInThePeriod}",
+        "endTime": "{endTimeOfThePeriod}",
+        "appsRunningMin": "{appsRunningMinInThePeriod}",
+        "numOfOperatorsAvg": "{numOfOperatorsAvgInThePeriod}"
+    }
+}
+```
+### GET /ws/v2/services
+
+Function:  list of all the currently installed services and their statuses.
+
+Example:
+
+```json
+
+{
+    "services": [
+    {
+        "name": "{serviceName}",
+        "state": "{serviceState}",
+        "startedTime": {serviceStartTime},
+        "installedTime": {serviceInstallTime},
+        "enabled": {true / false},
+        "type": "{docker/apex}",
+        "dependentApps": [
+        {
+            appId: "{appId}",
+            appName: "{appName}",
+            state: "{appState}",
+            user: "{user}"
+        }],
+        "memoryMB": {memoryMB},
+        "requiredServices": [
+            "{requiredService-1}",
+            ...
+        ],
+        "srcUrl": "{srcUrl}",
+        "docker":
+        {
+            "run": "{options and arguments to run docker service}",
+            "exec": "{optional exec command to run after the container is started}"
+        },
+        "proxy":
+        {
+            "name": "{proxyName}",
+            "address": "{proxyAddress}",
+	    "followRedirect": {true/false}
+        },
+        "containerId":{containerId}
+    },
+    {
+        "name": "{serviceName}",
+        "type": "apex",
+        "srcUrl": "{srcUrl}",
+        "apex":
+        {
+            "appName": "ApexApplicationName",
+            "launchArgs":
+            {
+                "{launchArgName}": "{launchArgValue}"
+            }
+        },
+        "proxy":
+        {
+            "name": "{proxyName}",
+            "address": "{proxyAddress}",
+	    "followRedirect": {true/false}
+        },
+        "metadata":
+        {
+            "var-name": "{value}"
+        }
+    }]
+}
+```
+
+### GET /ws/v2/services/{name}
+
+Function: Get details for a specific service
+
+Example: 
+```json
+    {
+        "name": "{serviceName}",
+        "state": "{serviceState}",
+        "startedTime": {serviceStartTime},
+        "installedTime": {serviceInstallTime},
+        "enabled": {true / false},
+        "type": "{docker/apex}",
+        "dependentApps": [
+        {
+            appId: "{appId}",
+            appName: "{appName}",
+            state: "{appState}",
+            user: "{user}"
+        }],
+        "memoryMB": {memoryMB},
+        "requiredServices": [
+            "{requiredService-1}",
+            ...
+        ],
+        "srcUrl": "{srcUrl}",
+        "docker":
+        {
+            "run": "{options and arguments to run docker service}",
+            "exec": "{optional exec command to run after the container is started}"
+        },
+        "proxy":
+        {
+            "name": "{proxyName}",
+            "address": "{proxyAddress}",
+	    "followRedirect": {true/false}
+        },
+        "containerId":{containerId}
+    }
+```
+### PUT /ws/v2/services/{name}
+
+Function: Install a new service with specified JSON params
+
+Payload:
+```json
+{
+    "name": "{serviceName}",
+    "enabled":
+    {
+        true / false
+    },
+    "type": "{docker/apex}",
+    "requiredServices": [
+        "{requiredService-1}",
+        ...
+    ],
+    "srcUrl": "{srcUrl}",
+    "docker":
+    {
+        "run": "{options and arguments to run docker service}"
+    },
+    "proxy":
+    {
+        "name": "{proxyName}",
+        "address": "{proxyAddress}"
+    }
+}
+```
+### DELETE /ws/v2/services/{name}
+
+Function: Delete specified service
+
+### POST /ws/v2/services/{name}
+
+Function: Update specified service
+
+Payload:
+
+```json
+{
+    "name": "{serviceName}",
+    "enabled":
+    {
+        true / false
+    },
+    "type": "{docker/apex}",
+    "requiredServices": [
+        "{requiredService-1}",
+        ...
+    ],
+    "srcUrl": "{srcUrl}",
+    "docker":
+    {
+        "run": "{options and arguments to run docker service}"
+    },
+    "proxy":
+    {
+        "name": "{proxyName}",
+        "address": "{proxyAddress}"
+    }
+}
+```
+### POST /ws/v2/services/{name}/start
+
+Function: Start the specified service.
+
+### POST /ws/v2/services/{name}/stop
+
+Function: Stop the specified service
+
+### POST /ws/v2/services/install[?async={true/false}]
+
+Function: Installs multiple services based on JSON params array.  Services are launched after install. hasAppDataSources is an optional flag, if set to true will cause service to respond immediately with 200 or error without waiting for download, installation and launch to complete
+
+Payload:
+```json
+[
+    {
+        "name": "{serviceName}",
+        "type": "docker",
+        "srcUrl": "{dockerAddress}",
+        "docker":
+        {
+            "run": "{run options}",
+            "exec": "echo optional command and args"
+        },
+        "proxy":
+        {
+            "name": "{proxyName}",
+            "address": "{proxyAddress}"
+        },
+        "requiredServices": ["{requiredService-1}"],
+        "enabled": true //enabled by default
+    }
+]
+```
+### GET /ws/v2/about
+
+Example:
+```json
+
+    "version": "{Apex version}",
+    "buildDate": "{Apex build date and time}",
+    "buildRevision": "{Apex revision}",
+    "buildVersion": "{Apex build version}",
+    "buildUser": "{Apex build user}",
+    // above 5 fields are deprecated and will be removed in 4.0
+    "apexVersion": "{Apex version}",
+    "apexBuildDate": "{Apex build date and time}",
+    "apexBuildRevision": "{Apex revision}",
+    "apexBuildVersion": "{Apex build version}",
+    "apexBuildUser": "{Apex build user}",
+    "hadoopVersion": "{Hadoop version}",
+    "hadoopBuildDate": "{Hadoop build date and time}",
+    "hadoopBuildRevision": "{Hadoop build revision}",
+    "hadoopBuildVersion": "{Hadoop build version}",
+    "hadoopBuildUser": "{Hadoop build user}",
+    "rtsVersion": "{RTS version}",
+    "rtsBuildDate": "{RTS build date and time}",
+    "rtsBuildRevision": "{RTS revision}",
+    "rtsBuildVersion": "{RTS build version}",
+    "rtsBuildUser": "{RTS build user}",
+    "os.arch": "{operating system architecture}",
+    "os.name": "{operating system name}",
+    "os.version": "{operating system version}",
+    "javaVendor": "{java vendor}",
+    "javaVersion": "{java version}",
+    "gatewayUser": "{user}",
+    "hadoopLocation": "{Hadoop location}",
+    "jvmName": "{pid}@{hostname}",
+    "configDirectory": "{configDir}",
+    "hadoopIsSecurityEnabled": {true/false},
+    "haEnabled": {true/false},
+    "timeZone": "{time zone}",
+    "hostname": "{hostname}"
+}
+
+```
+
 ### GET /ws/v2/about
 
 Function:
@@ -510,6 +1583,11 @@ Return:
             "memoryMBAllocated": "{memoryMBAllocated}",
             "memoryMBFree": "{memoryMBFree}",
             "numOperators": "{numOperators}",
+            "operators:" {
+                "id1": "name1",
+                "id2": "name2",
+                "id3": "name3"
+            },
             "containerLogsUrl": "{containerLogsUrl}",
             "state": "{state}"
         }, …
@@ -532,6 +1610,11 @@ Return:
     "memoryMBAllocated": "{memoryMBAllocated}",
     "memoryMBFree": "{memoryMBFree}",
     "numOperators": "{numOperators}",
+    "operators:" {
+        "id1": "name1",
+        "id2": "name2",
+        "id3": "name3"
+    },
     "containerLogsUrl": "{containerLogsUrl}",
     "state": "{state}"
 }
@@ -578,17 +1661,17 @@ Return:
 }
 ```
 
-### GET /ws/v2/applications/{appid}/physicalPlan/containers/{containerId}/logs/{logName}[?start={startPos}&end={endPos}&grep={regexp}&includeOffset={true/false}]
+### GET /ws/v2/applications/{appid}/physicalPlan/containers/{containerId}/logs/{logName}[?start={startPos}&end={endPos}&grep={regexp}&includeOffset={true/false}&lastNbytes={N}]
 
-Function: Return the raw log
+Function: Return the log with provided options
 
-Return: if includeOffset=false or not provided, return raw log content
-(Content-Type: text/plain). Otherwise (Content-Type: application/json):
+Return: if includeOffset=false or not provided, return raw log content (Content-Type: text/plain). Otherwise (Content-Type: application/json).
+The options (start, end) and (lastNbytes) are mutually exclusive.
 
 ```json
 {
     "lines": [
-        { "byteOffset":"{byteOffset}", "line": "{line}" }, …
+        { "byteOffset":"{byteOffset}", "line": "{line}" }, { "byteOffset":"{byteOffset}", "line": "RandomNumber : {Line}" } …
      ]
 }
 ```
@@ -1304,9 +2387,9 @@ Return:
 
 ### POST /ws/v2/licenses
 
-Function: Add a license to the registry or generate an eval license
+Function: Add a license to the registry
 
-Payload: The license file content, if payload is empty, it will try to generate an eval license and return the info
+Payload: The license file content
 
 Return:
 
@@ -1314,8 +2397,10 @@ Return:
 {
   "id": "{licenseId}",
   "expireTime": {unixTimeMillis},
+  "expirationTimeNotificationPeriod": {timeMillis},
   "nodesAllowed": {nodesAllowed},
   "memoryMBAllowed": {memoryMBAllowed},
+  "exceedGracePeriod": {timeMillis},
   "contextType": "{contextType}",
   "type": "{type}",
   "features": [ "{feature1}", … ]
@@ -1329,15 +2414,21 @@ Function: Get info on the current license
 ```json
 {
       "id": "{licenseId}",
+      "currentTime": {unixTimeMillis},
       "expireTime": {unixTimeMillis},
       "nodesAllowed": {nodesAllowed},
       "nodesUsed": {nodesUsed},
       "memoryMBAllowed": {memoryMBAllowed},
       "memoryMBUsed": {memoryMBUsed},
+      "exceedGracePeriod": {timeMillis}, // memory exceed grace period
+      "exceedRemainingTime": {timeMillis},  // (optional)
+      "violation": "memory", // returns violation type (optional)
       "contextType": "{community|standard|enterprise}",
       "type": "{evaluation|non_production|production}"
       "features": [ "{feature1}", … ], // for community, empty array
-      "current": true/false
+      "current": true/false,
+      "expirationTimeNotificationLevel": "{INFO|WARN|ERROR}", // (optional)
+      "valid": true/false // true, if the license is valid
 }
 ```
 
@@ -2128,6 +3219,157 @@ Return:
 ```json
 {
      "{topicName}": {json object data}, ...
+}
+```
+
+### PUT /ws/v2/systemAlerts/templates/system/{name}
+
+Function: Creates or replaces the specified system alert template.
+
+Payload:
+
+```json
+{
+    "isSystemTemplate": true,
+    "description": "{description}",
+    "parameters": [
+        {
+          "variable": "{replacement variable in Javascript block}",
+          "label": "{input label}",
+          "type": "{number/text}",
+          "placeholder": "{input placeholder}",
+          "tooltip": "{input tooltip}",
+          "required": {true/false},
+          "default": "{default value}",     // optional
+          "values": {                       // optional
+            "{key}": "{value}",
+            …
+          }
+        },
+        …
+    ],
+    "script": "{Javascript block}"
+}
+```
+
+Example:
+
+```json
+{
+    "templates": [
+        {
+            "isSystemTemplate": true,
+            "description": "An alert template example.",
+            "parameters": [
+                {
+                  "variable": "comparison",
+                  "label": "Comparison",
+                  "type": "text",
+                  "placeholder": "Select a comparison",
+                  "tooltip": "Choose the comparison to use.",
+                  "required": true,
+                  "default": ">",
+                  "values": {
+                    "<": "less than",
+                    "===": "equals to",
+                    ">": "greater than"
+                  }
+                },
+                {
+                  "variable": "count",
+                  "label": "Number of Killed Containers",
+                  "type": "number",
+                  "placeholder": "Enter a valid number",
+                  "tooltip": "Enter the number.",
+                  "required": false
+                }
+            ],
+            "script": "/* Alert when number of killed containers is {{comparison}} {{count}} */
+
+                _topic['cluster.metrics'].numContainers {{comparison.key}} ({{count}} !== null ? {{count}} : 0);"
+        }
+    ]
+}
+```
+
+### DELETE /ws/v2/systemAlerts/templates/system/{name}
+
+Function: Deletes the specified system alert template.
+
+### GET /ws/v2/systemAlerts/templates/system
+
+Function: Gets the created system alert templates
+
+Return:
+
+```json
+{
+    "templates": [
+        {
+            "isSystemTemplate": true,
+            "description": "{description}",
+            "parameters": [
+                {
+                  "variable": "{replacement variable in Javascript block}",
+                  "label": "{input label}",
+                  "type": "{number/text}",
+                  "placeholder": "{input placeholder}",
+                  "tooltip": "{input tooltip}",
+                  "required": {true/false},
+                  "default": "{default value}",     // optional
+                  "values": {                       // optional
+                    "{key}": "{value}",
+                    …
+                  }
+                },
+                …
+            ],
+            "script": "{Javascript block}"
+        },
+        …
+    ]
+}
+```
+
+### GET /ws/v2/systemAlerts/templates/system/{name}
+
+Function: Gets the specified system alert template
+
+Return:
+
+```json
+{
+    "isSystemTemplate": true,
+    "description": "{description}",
+    "parameters": [
+        {
+          "variable": "{replacement variable in Javascript block}",
+          "label": "{input label}",
+          "type": "{number/text}",
+          "placeholder": "{input placeholder}",
+          "tooltip": "{input tooltip}",
+          "required": {true/false},
+          "default": "{default value}",     // optional
+          "values": {                       // optional
+            "{key}": "{value}",
+            …
+          }
+        },
+        …
+    ],
+    "script": "{Javascript block}"
+}
+```
+
+### PUT /ws/v2/systemAlerts/validate/script
+
+Function: Validates Java script.
+
+Payload:
+
+```json
+{
+    "script": {"script"}
 }
 ```
 

@@ -13,16 +13,12 @@ This document has a step-by-step guide to configure, customize, and launch this 
 
 ## <a name="steps_to_launch">Steps to launch application</a>
 
-1. Click on the AppHub tab from the top navigation bar.
+1. Click on the AppFactory tab from the top navigation bar.
    ![AppHub link from top navigation bar](images/common/apphub_link.png)
-
-1. Page listing the applications available on AppHub is displayed.
-Search for Database to see all applications related to Database.
-   ![AppHub search for Database](images/database-to-database-sync/apphub-search.png)
-
-    Click on import button for `Database to Database Sync App`
-
-1. Notification is displayed on the top right corner after application package is successfully
+   Page listing the applications available on AppFactory is displayed.
+1. Search for Database to see all applications related to Database.
+1. Click on import button for `Database to Database Sync App`
+Notification is displayed on the top right corner after application package is successfully
    imported.
    ![App import Notification](images/database-to-database-sync/import-notification.png)
 
@@ -31,20 +27,9 @@ Search for Database to see all applications related to Database.
 
     Detailed information about the application package like version, last modified time, and short description is available on this page. Click on launch button for `Database-to-Database-Sync` application.
 
-1. <a name="launch-dialogue"></a>`Launch Database-to-Database-Sync` dialogue is displayed. One can configure the name of this instance of the application from this dialogue.
-   ![Launch dialogue](images/database-to-database-sync/launch.png)
+1. The <a name="launch-dialogue"></a>`Database-to-Database-Sync` application configuration page is displayed. The Required Properties section must be completed before the application can be launched.
 
-1. Select `Use saved configuration` option to display a list of pre-saved configurations.
-Please select `sandbox-memory-conf.xml` or `cluster-memory-conf.xml` depending on whether
-your environment is the DataTorrent sandbox, or other cluster.
-    ![Select saved configuration](images/database-to-database-sync/saved-conf.png)
-
-1. Select `Specify custom properties` option. Click on `add default properties` button.
-   ![Specify custom properties](images/database-to-database-sync/specify-custom.png)
-
-1. This expands a key-value editor pre-populated with mandatory properties for this
-application. Change values as needed.
-   ![Properties editor](images/database-to-database-sync/property-editor.png)
+    ![Launch dialogue](images/database-to-database-sync/launch.png)
 
     <a name="property-editor"></a>
     For example, suppose we wish to process all rows from the table `test_event_input_table` in a
@@ -54,28 +39,25 @@ application. Change values as needed.
 
     |Name|Value|
     |---|---|
-    |dt.operator.JdbcInput.prop.store.databaseDriver|org.postgresql.Driver|
-    |dt.operator.JdbcInput.prop.store.databaseUrl|jdbc:postgresql://source-database-node.com:5432/testdb|
-    |dt.operator.JdbcInput.prop.store.password|postgres|
-    |dt.operator.JdbcInput.prop.store.userName|postgres|
-    |dt.operator.JdbcInput.prop.tableName|test_event_input_table|
-    |dt.operator.JdbcInput.prop.whereCondition||
-    |dt.operator.JdbcOuput.prop.store.databaseDriver|org.postgresql.Driver|
-    |dt.operator.JdbcOuput.prop.store.databaseUrl|jdbc:postgresql://destination-database-node:5432/testdb|
-    |dt.operator.JdbcOuput.prop.store.password|postgres|
-    |dt.operator.JdbcOuput.prop.store.userName|postgres|
-    |dt.operator.JdbcOuput.prop.tablename|test_event_output_table|
+    |Jdbc Input Database Url |jdbc:postgresql://source-database-node.com:5432/testdb|
+    |Jdbc Input Store Password |postgres|
+    |Jdbc Input Store Username |postgres|
+    |Jdbc Input Table Name |test_event_input_table|
+    |Jdbc Output Database Url |jdbc:postgresql://destination-database-node:5432/testdb|
+    |Jdbc Output Store Password |postgres|
+    |Jdbc Output Store Username |postgres|
+    |Jdbc Output Table Name |test_event_output_table|
 
     Details about configuration options are available in [Configuration options](#configuration_options) section.
 
-1. Click on the `Launch` button at the lower right corner of the dialog to launch the
+1. When you are finished inputting application configuration properties, click on the `save` button on the top right corner of the page to save the configuration.
+
+1. Click on the `launch` button at the top right corner of the dialog to launch the
 application.
-A notification is displayed on the top right corner after the application is launched successfully and includes the Application ID which can be used to monitor this instance and to find
-its logs.
+A notification will be displayed on the top right corner after the application is launched successfully and includes the Application ID which can be used to monitor this instance and to find its logs.
    ![Application launch notification](images/common/app_launch_notification.png)
 
 1. Click on the `Monitor` tab from the top navigation bar.
-   ![Monitor tab](images/common/monitor_link.png)
 
 1. A page listing all running applications is displayed. Search for the current instance based on name or application id or any other relevant field. Click on the application name or id to navigate to the details page.
    ![Apps monitor listing](images/common/apps_monitor_listing.png)
@@ -119,7 +101,7 @@ End user must specify the values for these properties.
 
 
 ### Advanced properties
-There are pre-saved configurations based on the application environment. Recommended settings for [datatorrent sandbox edition](https://www.datatorrent.com/download/datatorrent-rts-sandbox-edition-download/) are in `sandbox-memory-conf.xml` and for a cluster environment in `cluster-memory-conf.xml` (the first 2 are integers and the rest are strings).
+There are pre-saved configurations based on the application environment. Recommended settings for [datatorrent sandbox](https://www.datatorrent.com/download/datatorrent-rts-sandbox-edition-download/) are in `sandbox-memory-conf.xml` and for a cluster environment in `cluster-memory-conf.xml` (the first 2 are integers and the rest are strings).
 The messages or records emitted are specified by the value of the `TUPLE_CLASS` attribute in the configuration file namely `PojoEvent` in this case.
 
 |Property|Description|Default for<br/> cluster<br/>-memory<br/>- conf.xml|Default for<br/>  sandbox<br/>-memory<br/> -conf.xml|
@@ -170,7 +152,9 @@ You can override default values for advanced properties by specifying custom val
     This will generate the application package file with `.apa` extension in the `target` directory.
 
 1. Go to DataTorrent UI Management console on web browser. Click on the `Develop` tab from the top navigation bar.
-    ![Develop tab](images/common/develop_link.png)
+
+1. Click on `Application Packages` from the list.
+
 1. Click on `upload package` button and upload the generated `.apa` file.
     ![Upload](images/common/upload.png)
 

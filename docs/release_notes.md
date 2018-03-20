@@ -1,5 +1,952 @@
 DataTorrent RTS Release Notes
 ========================================================================================================================
+Version: 3.10
+------------------------------------------------------------------------------------------------------------------------
+
+Companies want to gain quick insights and take action on impacting events at the speed of their businesses. DataTorrent's Real-time Streaming (RTS) platform makes it easy to deliver fast data analytics applications that drive business outcomes using the latest innovation in data science and machine learning. It integrates best-of-breed open source technology innovation to provide all the features that a business needs to develop and deliver best-in-class, fast data applications.
+
+DataTorrent RTS 3.10 version includes the following new features, resolved issues, and known issues.
+
+### Features
+
+The key features of DataTorrent RTS 3.10 release are as follows:
+
+- [New RTS Platform features](#RTSPlatform)
+- [DataTorrent's RTS Apoxi™ framework with added features](#apoxi)
+- [New and enhanced AppFactory applications](#appfactory)
+- [Miscellaneous features](#miscellaneous)
+
+
+<a name="RTSPlatform"></a>
+
+### RTS Platform
+
+The following RTS Platform features are included in this release:
+
+- [Support for OLAP with Druid](#olapwithdruid)
+- [Expanded Support for Machine Learning and AI](#machinelearning)
+
+<a name="olapwithdruid"></a>
+
+#### Support for Real-time OLAP with Druid
+
+Provides customers with the ability to slice and dice data in real-time to get the information needed to compute and compare it to historical trends. This capability is delivered as a pre-built component that tightly integrates Apex, Druid, and Superset for real-time plus historical dashboards and visualizations.   Druid is an open-source project that is hardened and delivered as part of the RTS platform so that a separate, dedicated Druid cluster is not required.
+
+<a name="machinelearning"></a>
+
+#### Expanded Support for Machine Learning and AI
+
+DataTorrent RTS 3.10 helps customers capitalize on the value from the latest innovations in machine learning, AI, and data science.
+
+##### Python Support
+
+RTS is extended to support the machine-scoring models that are written in Python.
+
+##### Support for PMML Based Machine Scoring Models
+
+RTS also provides support for machine scoring models based on PMML which is an emerging standard.
+
+<a name="apoxi"></a>
+
+### DataTorrent's RTS Apoxi™ Framework
+
+RTS Apoxi framework gives businesses operational readiness at any scale by providing the tooling required to assemble, manage, and operate fast data applications on any infrastructure. Apoxi is a framework that uniquely binds application building blocks or micro data services to create optimized, pre-built apps. It can also integrate independent applications to allow them to operate as one.
+
+With Apoxi, DataTorrent can combine multiple micro data services, each with its own capability and operability, while also preserving the independence of different services, i.e. ingest and enrich, train and prepare, archive and persist, analyze and act.
+
+For developers and data engineers, Apoxi saves time by providing facilities for streaming data visualization, lifecycle management, what-if data replay, and a built-in backplane for rapid integration.  Apoxi helps DevOps teams push applications to production with confidence by providing the management tooling, enterprise integrations, and operational metrics needed to meet production SLAs 24x7x365.
+
+The following features of RTS Apoxi framework are included in 3.10 release:
+
+- [Store and Replay](#storeandreplay)
+- [Drools Workbench](#drools)
+- [Application Backplane](#appbackplane)
+- [Azure HDI Deployment](#azure)
+- [New iFrame Widget](#iframe)
+- [Configuration Artifacts for Schemas and Rules](#configartifacts)
+- [Enhanced RTS UI for Launch and Application Configuration](#launchandappconfig)
+
+<a name="storeandreplay"></a>
+
+#### Store and Replay
+
+Store and Replay helps customers push to production with confidence. Customers can record and replay data from a specific point in time to evaluate the effectiveness of builds, models, and scenarios before they are put into production thereby removing the guesswork about what outcomes can occur.
+
+<a name="drools"></a>
+
+#### Drools Workbench
+
+Drools Workbench integration makes it easier to modify complex event processing (CEP) rules and push new rules to production. The workbench enables customers to import data schema and visually edit and manage complex rules, easily using an intuitive graphical user interface.
+
+<a name="appbackplane"></a>
+
+#### Application Backplane
+
+Application Backplane enables multiple applications to be simply and consistently integrated to share insights and actions. Combining numerous applications in real-time can result in significantly better outcomes, while still enabling separately managed applications to remain independent and benefit from a network-effect.
+For example, you can integrate a fraud prevention application, such as Payment Card Fraud Prevention, with another fraud prevention application so that bothapplications see a net reduction in fraud by alerting each other whenever a fraud is detected in one.
+
+<a name="azure"></a>
+
+#### Azure HDI Deployment
+
+RTS now supports deployment to an Azure HDInsights Hadoop Cluster thereby enabling you to deploy RTS on Microsoft cloud. You can build streaming analytics applications and reduce the time to value with support for Azure Event Hubs as a source of incoming stream data.
+
+<a name="iframe"></a>
+
+#### New iFrame Widget
+
+Now you can create rich dashboards that include visualizations from 3rd sources so that all your insights can be displayed in one, easy-to-use interface for exploring and visualizing data.   You can see this new capability in action as part of the new Online Analytics Service that provides real-time and historical visualizations, drill-down, query, etc.
+
+<a name="configartifacts"></a>
+
+#### Configuration Artifacts for Schemas and Rules
+
+DT RTS UI now allows you to include configuration artifacts which refers to schemas, libraries, rules and custom code that can be provided to an application through an application configuration. These artifacts can be uploaded manually and synchronized automatically from a Maven artifacts directory that is accessible by the Gateway. During the launch of an application, these artifacts are deployed as Application Configuration (\*.apc) files.
+
+<a name="launchandappconfig"></a>
+
+#### Enhanced RTS UI for Launch and Application Configuration
+
+The RTS UI is enhanced to include user-friendly screens for creating application configurations that are composed of multiple, separate services - enabling them to function as one end-to-end application.
+
+### AppFactory <a name="appfactory"></a>
+
+The AppFactory includes an extensive library of popular open-source and proprietary operators for data input/output, enrichment, analytical functions, and more. These operators are further combined into pre-tested, streaming micro data services for common patterns such as data ingestion, real-time synchronization, anomaly detection, machine scoring, etc.
+
+The following features are included in AppFactory for 3.10 release:
+
+- [Omni-Channel Fraud Prevention Application V2](#fpa)
+- [Account Takeover Prevention Application](#ato)
+- [New Use Case: Retail Recommender PoC](#retail)
+- [Micro Data Service (MDS): Online Analytics Service](#oas)
+- [Enhanced Drools Operator](#droolsoperator)
+
+<a name="fpa"></a>
+
+#### Omni-Channel Fraud Prevention Application V2
+
+The newest version of DataTorrent's Omni-channel Payment Fraud Prevention application integrates with the Druid OLAP component for real-time online analytical processing and enhanced historical trend analysis. This latest application also includes a reference architecture for integration with a variety of machine-trained analytical models for enhanced fraud prevention.
+
+The improvements in this version of the Fraud Prevention application include the following:
+
+- Support for stateful rules via Drools operator which allows storing and using a state across multiple transactions.
+- Integrated with OAS which enables real-time analytics.
+- Support for rule editing with CEP Workbench.
+- Integrated with Apache Superset UI which lets you visualize and analyze trends on real-time and historical dashboards.
+
+<a name="ato"></a>
+
+#### Online Account Takeover Prevention
+
+RTS introduces **Account Takeover Prevention (ATO) application**, a reference application that enables customers to prevent online account takeover and fraud by processing, enriching, analyzing, and acting on multiple streams of account event information in real-time.
+
+Additional key features in this application include:
+
+- Integration with Online Analytics Service for OLAP trend analysis.
+- Support for rule editing with Drools Workbench.
+- Integration with Apache Superset UI for visualization.
+
+<a name="retail"></a>
+
+#### New Use Case: Retail Recommender - Reference Architecture
+
+Real-time, personalized product and service recommendations drive additional revenue for retail and ecommerce companies. DataTorrent's Retail Recommender provides a reference architecture that produces product recommendations in real-time by operationalizing the latest innovations in machine-learning.
+
+Key features in this application include:
+
+- Integration with Online Analytics Service for OLAP trend analysis
+- Integration of Spark MLlib.
+- Integration with Apache Superset UI for visualization
+
+For more details, refer to Retail Recommender Reference Architecture in our [AppFactory](http://www.datatorrent.com/appfactory)
+
+<a name="oas"></a>
+
+#### Online Analytics Service (OAS)
+
+Online Analytics Service (OAS) is delivered as a pre-built component that integrates Apex, Druid, and Superset for real-time BI dashboards and visualizations. OAS provides real-time as well as historical trend analysis, visualization, drill down, and query.
+
+RTS enables OAS to receive event data from multiple data sources into a single Kafka topic while making the data available for analysis. RTS also provides a seamless way for target applications to push the data into Kafka topics for consumption by OAS.
+
+<a name="droolsoperator"></a>
+
+#### Enhanced Drools Operator
+
+The Drools operator is enhanced to provide support for stateful rules execution. The updated Drools operator is used in the latest version of Fraud Prevention application as well as in the Account Takeover Prevention application.
+
+<a name="miscellaneous"></a>
+
+### Miscellaneous Features
+
+The following miscellaneous features are included in this release:
+
+- [Encrypted StreamCodec](#streamcodec)
+- [Dynamic Usage Statistics Reporting via Phone Home](#phonehome)
+
+<a name="streamcodec"></a>
+
+#### Encrypted StreamCodec
+
+Encrypted StreamCodec adds multiple implementations of StreamCodec and StatefulStreamCodec, which provides support for encryption of tuples before sending them downstream. All implementations are based on AES and secure RPC when launching operators in the cluster. The shared secret key is distributed to all the operators during deployment.
+
+<a name="phonehome"></a>
+
+#### Dynamic Usage Statistics Reporting via Phone Home
+
+Dynamic usage statistics are reported to DataTorrent via the phone home feature. This aids DataTorrent to provide better support and to analyze when you are running out of data capacity. It also helps you to understand your RTS usage patterns over time.
+
+### Upgrade Information
+
+In case you want to use Services in DataTorrent RTS applications, you must install Docker on your system. However, this is not mandatory for upgrading to RTS 3.10 version.
+
+### Resolved Issues
+
+The following resolved issues are included in this release:
+
+- Added a new recovery mode REUSE\_INSTANCE to reuse operator instance across failures without reloading from checkpoint in certain cases. Now when the upstream operator is killed, the downstream operator does not reload the data from checkpoint from HDFS. Instead it uses the state in memory as-is. (SPOI-11219)
+- Support for option to use per user application directory in HDFS in secure mode. (SPOI-12134)
+- Out of order window ID was received in the begin window after recovery from a failure.  (SPOI-12633)
+- Support is provided for UI Active Directory. (SPOI-12663)
+- Container request is not sent, when the node report checks for the memory requested by the container. (SPOI-12708)
+- With anti-affinity STRAM, enough containers are not received from the resource manager to run all the operators. (SPOI-12791)
+- Files configured by the user were not available after RTS upgrade. (SPOI-12794)
+- Provide new permission that is VIEW\_LOGS which determines if user can view the log files of the application instances. (SPOI-12936)
+- Authentication for Active Directory failed for domain users. (SPOI-12998)
+- Option provided to run snapshot server in stand-alone mode. (SPOI-13031)
+- SMTP configuration does not work without SSL. ( SPOI-13256)
+
+### Known Issues
+
+The following known issues are included in RTS 3.10:
+
+- _KafkaExactlyOnceOutputOperator_ does not work with Kerberised cluster. (SPOI-13182)
+- Operator in fraud-prevention App dies while attempting to record a sample. (SPOI-13194)
+- The java script validation cannot terminate a java script, if it is running longer than the timeout period. (SPOI-12265)
+- Application does not shutdown even after consuming the end offset in Kafka. ( SPOI-12955)
+- OAS is unable to handle multiple intervals in select query. (SPOI-12865)
+- DT services with secure docker setup does not work. (SPOI-13104)
+>**Workaround:** Docker in SSL mode requires mutual TLS (MTLS) which is not supported. Make sure your docker daemon uses either UNIX sockets or plain TCP sockets
+
+- Multiple redirections occur when logging into drools workbench through proxy URL. (SPOI-13254)
+>**Workaround** : Click the **Back** button on the browser to go to the Drools WorkBench login page. You can also close the current tab and click the Proxy URL once again to go to the login page.
+
+- Transient services are not deleted when the corresponding app is terminated. (SPOI-12983)
+- Schema Aware operators should not perform validations in setter methods. (SPOI-13095)
+- Proxy URL for newly created Superset service (from UI) does not work. (SPOI-13454)
+- GATEWAY\_CONNECT\_ADDRESS parameter is misspelt as GATEWAY\_CONNECT\_ADDRESSS. (SPOI-13449)
+- Fraud App: Physical DAG is broken (SPOI-13388)
+- Application fails when both replay and archive properties are set to True. ( SPOI-13202)
+Release date: Feb 21, 2018
+
+
+Version: 3.9.2
+------------------------------------------------------------------------------------------------------------------------
+
+Release date: Dec 6, 2017
+
+The following issues are fixed in DataTorrent RTS 3.9.2 release:
+
+#### Resolved Issues
+
+**[SPOI-12791]**
+
+In the application when the anti-affinity is enabled, the application master gets containers from the Resource Manager for sometime only.  After this no more containers are received even after periodically requesting the STRAM for containers. Thus the functioning of the application gets disrupted.
+
+**[SPOI-12794]**
+
+While upgrading to RTS 3.9.1 with the latest rpm, the installation do not remain seamless. The LDAP configurations of the user are cleared from conf directory and the configurations had to be manually set up again. 
+
+**[SPOI-12795]**
+
+Metrics platform was not supported with DT-Plus license and was only available with DT_Premium license as part of 3.9.1 release. 
+
+**[SPOI-12832]**
+
+The application exits due to *java.lang.NullPointer* exception in the application master. 
+
+**[SPOI-12855]**
+
+CassandraStore class only supports single node.  The CassandraStore must be enabled to support more than one cassandra nodes.
+
+**[SPOI-12820]**
+
+A new License API must be added to check the license restriction inside the Apex application container.
+
+**[SPOI-12898]**
+
+License is required for deploying RTS 3.9.2 on Sandbox. 
+
+**[SPOI-12843]**
+
+The App Metrics platform must be updated with the new license checking code to support DT Premium or DT Plus license category.
+
+**[SPOI-12842]**
+
+The Drools CEP Rule Engine operator must be updated with the new license checking code to support DT Premium or DT Plus license category.
+
+**[SPOI-12841]**
+
+The Omni-channel Fraud Prevention v1 premium application must be updated with the new license checking code that supports DT Premium or DT Plus license category.
+
+**[SPOI-12932]**
+
+For Alert configurations, an e-mail address with hypen(-) character is not accepted. 
+
+**[SPOI-12888]**
+
+The metrics data is generated even when the platform license was not set.
+
+**[SPOI-12872]**
+
+*isValidLicense API* returns as **True** in cases where the license is not even configured.
+
+**[SPOI-12867]**
+
+The method *context.getAttributes().get()*, that is used in License API, do not function properly in getting the application name property in the Apex Container code. This method must be replaced with *context.getValue()* method.
+
+**[SPOI-12811]**
+
+The filtering of auto complete list in tags do not input correctly.
+
+**[SPOI-12774]**
+
+If the key value contains a space in the key-combination, then that space is converted into hypen(-).
+For example: If the key is **Las Vegas**, then it gets converted to **Las-Vegas**.
+
+**[SPOI-12749]**
+
+Nullpointer exception in found in FSWindowDataManager.
+
+Version: 3.9.1
+------------------------------------------------------------------------------------------------------------------------
+
+Release date: Oct 10, 2017
+
+### Features
+The following features and enhancements are included in the DataTorrent RTS 3.9.1 release:
+
+#### Premium Applications Licensing
+DataTorrent applications and operators are now offered under the following license categories:
+
+* DataTorrent Premium Suite®
+* DataTorrent Service Plus® 
+ 
+These categories determine the type of access that you have for the premium applications and operators that are available in DataTorrent's AppFactory.
+
+With **DT Premium**, you can access  and download premium applications from the DataTorrent AppFactory such as the Omni-Channel Fraud Prevention application and operators such as Drools-based rule engine for complex event processing. 
+
+With **DT Plus**, you can download only non-premium applications and operators that can be used for data ingestion.  Premium applications, although visible on the AppFactory, can be downloaded only if you subscribe to DataTorrent Premium Suite.
+
+In this release, licensing support is extended to **Metrics module** and to **Omni-Channel Fraud Prevention** application.
+
+#### Python Support
+DataTorrent now provides support to Python for building applications in Apex. You can create a DAG with Python as high level API support.
+
+#### Single Value Widget
+The Single Value widget can be now added to a dashboard of Application Templates.
+ 
+#### Historical Time Range Results 
+The Historical time range selection results now includes the  **From** and **To** values.
+
+#### Enhancements to Import Packaged Dashboards Section
+The following enhancements are done to the **Import Packaged Dashboards** section of the **Launch < Application >** dialog box:
+
+* On the UI, the default selection for the replacement application is now the same as the currently launching application.
+* The **Name** field is now changed to **Dashboard Name**
+* A detailed description is now provided for the **Select Replacement Applications** field. 
+* The purpose of the application state can be viewed when you hover over the dashboard name. 
+* The name of the user who packaged the dashboards is now no longer visible against the name of the dashboard. 
+ 
+#### Artifact Query API Filter
+
+The artifact query API now supports expansion to all versions, including older ones, as well as specifying exact RTS Version and limiting the results. 
+
+### DataTorrent RTS Defect Fixes 
+The following resolved issues are included in the DataTorrent RTS 3.9.1 release:
+
+#### Defects
+
+* [SPOI-11219] - Add a new recovery mode where the operator instance before a failure event can be reused in certain cases without reloading from checkpoint.
+* [SPOI-12665] - Autometric values of an operator is showing wrongly in App master.
+* [SPOI-12633] - Operator fails with catastrophic error message.
+
+
+Version: 3.9
+------------------------------------------------------------------------------------------------------------------------
+
+Release date: Aug 23, 2017
+
+### Summary
+#### Application  Dashboards
+
+These dashboards help to deliver a complete application experience, showcasing the business-relevant metrics customers’ desire.
+ 
+DataTorrent’s Applications Dashboards are 1) easy to create from library of widgets 2) show business relevant, real-time analytics and 3) can be easily associated with one or more streaming application(s). Now customers can construct the specific view that THEY want to see in one place.
+ 
+#### Application Metrics and Visualization
+ 
+Customers can create real-time metrics that are relevant to the overall streaming analytics application, so that business-relevant metrics can be easily computed and visualized. 
+ 
+DataTorrent’s Application Metrics & Visualization capabilities enable customers to define not just operational metrics related to data processing, but now they can capture, store, and show the business relevant metrics too.  This is key to being able to show dashboards that are relevant to specific business problems (for ex: percentage of transactions where fraud occurs, fraud trends in real-time, or fraud breakdown by channels).
+
+ 
+#### DataTorrent AppFactory
+ 
+DataTorrent has evolved the AppHub, making it even easier for customers to solve problems and understand how real-time streaming analytics can make a difference for their business.  
+
+DataTorrent AppFactory is a centralized marketplace for streaming analytics applications that:
+Solve industry specific streaming analytics problems i.e. fraud prevention to prepare the data so that you can make quick/informed business decisions help customers deliver value quickly without requiring incremental DIY work
+ 
+The AppFactory is arranged both by vertical application and Application Suites making it very intuitive for the customer to identify what might be most relevant/critical for their business needs.
+ 
+Additionally, customers can see the Use Cases, Reference Architectures, and pre-built applications for download to get a full view of what’s possible in the DataTorrent AppFactory.
+ 
+At GA, DataTorrent AppFactory contains the following Application Suites:
+Omni-channel Payment Fraud Prevention Application Suite
+Continuous Big Data Cloud Sync Application Suite
+Continuous Big Data Archival Application Suite
+Continuous Big Data Preparation Application Suite
+Continuous Big Data Sync Application Suite
+ 
+AppFactory is a marketplace of big data streaming analytics use cases, reference architectures, and downloadable applications that help you to make a positive impact on your business as quickly as possible. You can search by industry or technology to quickly find what is most relevant to your needs.
+ 
+
+#### Omni-channel Payment Fraud Prevention Application Suite
+
+Prevent payment fraud in real-time on all transactions across all your channels.
+DataTorrent’s Omni-channel Payment Fraud Prevention Application delivers real-time, data-in-motion analytics built for 24/7/365 production with sub-second latency, self-healing, enterprise-grade reliability and a scale-out architecture built with a complete pipeline that includes real-time business and operational visualizations.
+
+
+#### Continuous Big Data Cloud Sync Application Suite
+
+Continuous Big Data sync of on-premise and cloud infrastructures for availability, compliance, and archival.
+Allows customers to create various data storages within and across on-premise and cloud which can be continuously synced, with no data loss.
+
+ 
+#### Continuous Big Data Archival Application Suite
+
+Continuous archival of Big Data for compliance and business continuity.
+Enables customers fast backup of large volumes of data with low latency, and dynamic scaling features. 
+ 
+
+#### Continuous Big Data Preparation Application Suite
+
+Streaming Big Data ingestion to prepare your data for insight and action.
+Renders your data “decision ready” as close as possible to the time of creation, serving the business with continuous, clean, consistent, enriched data in the desired business template.	
+
+ 
+#### Continuous Big Data Sync Application Suite
+
+Continuous delivery of Big Data to your Data Lake.
+Allows customers to create an Enterprise Data Lake which delivers continuous, clean, and consistent data while ensuring no data loss occurs during data movement. 
+
+### Additional product features that further increase a customer’s time to value include:
+
+#### Operator Library Improvements
+
+With every release, DataTorrent hardens the operators we ship with our applications and templates, continually adding to the Open Source community.
+
+With RTS 3.9, we’ve included the creation of an input operator for the latest version of Kafka so we now support Kafka 0.10.1.
+ 
+Schema Support for Applications
+This feature makes it easier to change the fields that are supported in your data.
+ 
+With DataTorrent’s Basic Schema Support for applications, it is easier to change the schema that are supported by the data.  Now users are able to associate fields to the data being processed by a DAG in order to associate this pipeline with a set of fields. When the fields are changed, the whole pipeline is updated accordingly.
+
+
+#### Licensing
+
+Every customer including eval and free edition users will need a new license file to use the RTS 3.9.0 product.
+
+In 3.9, we have updated our software licensing mechanism. Customers, including those using our Free license, will be required to obtain a new software license file from DataTorrent in order to use or upgrade to version 3.9.  Existing customers can visit Upgrade License to obtain a new license when ready.
+
+Customers who download our sandbox environment or request a free or evaluation license will automatically receive a 3.9-compatible license.
+
+
+#### Security
+
+Security hardening enhancements in 3.9.0 enable users to configure LDAP Security directly in the product. While available previously, the additional functionality in our User Interface now makes LDAP configuration even easier, saving customers time.
+
+
+#### Centralized Log Aggregation
+
+Troubleshooting just got easier with this feature that enables a centralized facility for log aggregation.
+ 
+DataTorrent RTS 3.9 Support for 3rd Party Log Aggregation makes it even easier for customers to troubleshoot while in production with indexing, search and correlation, and a centralized facility for log aggregation. You can now integrate Elasticsearch, Logstash, Kibana (ELK) or Splunk with RTS out of the box.  
+
+### Additional Features of RTS 3.9.0
+
+#### Apache Beam Support
+
+This feature is focused on making data processing easier, faster and less costly.
+Apache Beam Support, aka Google DataFlow is an open source, unified model and set of language-specific SDKs for defining and executing data processing workflows and also data ingestion and integration flows, supporting EIPs and DSLs. This dataflow pipeline simplifies the mechanics of large-scale batch and streaming processing.
+ 
+
+#### Basic Batch Processing Support
+This feature enables data to be read and processed in batch mode.
+DataTorrent’s Batch Processing Support allows customers to use their batch-oriented architectures in order to integrate with support for external scheduling (i.e. through cron, Oozie, etc.).
+
+
+### Deprecated Features of RTS 3.9.0
+
+This section lists features and capabilities that have been either removed or planned for removal in DataTorrent RTS.
+
+* Application Data Tracker (ADT):  This feature will no longer be supported after the RTS 3.9.0 release.   ADT is determined to be not sufficiently scalable and requires execution of a separate application that is not directly built into the RTS platform.  ADT is replaced with the new Application Metrics feature.  The new Application Metrics feature available in RTS 3.9.0 provides the required scalability, is easier for developers to use, and does not require execution of a separate application.  
+
+### Apex Features
+* [APEXCORE-594] Plugin support in Apex
+* [APEXCORE-579] Custom control tuple support
+* [APEXCORE-563] Have a pointer to container log filename and offset in StrAM events that deliver a container or operator failure event.
+* [APEXCORE-655] Support RELEASE as archetype version when creating a project
+* [APEXCORE-662] Raise StramEvent for heartbeat miss
+
+### Apex Bugs
+* [APEXCORE-674] DTConfiguration utility class ValueEntry access level was changed
+* [APEXCORE-663] Application restart not working.
+* [APEXCORE-648] Unnecessary byte array copy in DefaultStatefulStreamCodec.toDataStatePair()
+
+### DataTorrent RTS Bug Fixes 
+#### Bugs
+* [SPOI-8784] - Restarting application with originalAppId for long running app takes long time
+* [SPOI-9203] - AppHub "check for updates" option says 'no updated versions' and then displays updated packages
+* [SPOI-10409] - Updating app packages using "check for updates" option from AppHub gives wrong notification as undefined
+* [SPOI-10786] - Checkbox cannot be unchecked in the Widget Options screen
+* [SPOI-10989] - Gateway insists on using IP address for GATEWAY_CONNECT_ADDRESS
+* [SPOI-11143] - Launching PiDemoAppData with optional properties throws 500 Server Error
+* [SPOI-11235] - Stram Search Event Does Not Return Correct Result
+* [SPOI-11239] - Prevent Page Freeze in Monitor Application Page
+* [SPOI-11312] - Container log files contain "\t" characters instead of a tab
+* [SPOI-11322] - AppMaster node is mentioned as "N/A" in the Failure Message
+* [SPOI-11381] - Search for "heap reduction %" column in GC Log Table does not work correctly
+* [SPOI-11425] - When operator fails recursively, few StartOperator/StartContainer events are grouped incorrectly
+* [SPOI-11446] - Search for status column in "Logical Operators" widget does not work
+* [SPOI-11482] - dtDashboard should ask for "save changes" while moving away from unsaved dashboard
+* [SPOI-11485] - Cannot switch back to "Name-Value" once clicked on "JSON" on Application Configuration details page
+* [SPOI-11498] - After machine reboot, DTGateway fails to get the uploaded license.
+* [SPOI-11523] - physical DAG view has become unresponsive
+* [SPOI-11580] - Shows the empty long description when uploading the existing app template with different version
+* [SPOI-11622] - Fix semantic versioning for ALL Application Templates
+* [SPOI-11784] - Getting Javascript error when viewing application summary - "Unable to render dag due to TypeError: Cannot read property 'appInstance' of undefined"
+* [SPOI-11791] - Application Package upload fails with "Unexpected EOF reached" error
+* [SPOI-11793] - Too many CLOSE_WAIT entries in netstat output when running applications with dashboards
+* [SPOI-11805] - AppHub timestamps do not follow App Package timestamp standards
+* [SPOI-11809] - Issues with Bar-Charts on Dashboard
+* [SPOI-11851] - 'Reset Position' option for DAG on Application details page does not work
+* [SPOI-11858] - Incorrect metrics are reported for the application
+* [SPOI-11859] - Metrics are not updated in real-time for long running applications
+* [SPOI-11860] - 'dt.metrics.baseDir' should default to "DFS Root Directory/metrics" instead of hard coded "datatorrent/metrics"
+* [SPOI-11869] - Gateway throws FileNotFoundException for applications without any metrics data stores
+* [SPOI-11870] - Issues faced while demoing app template(s)
+* [SPOI-11884] - Logical and Physical Dag widgets shrink when clicking on the left and right border
+* [SPOI-11889] - DTX-SNAPSHOT build packages apex core jar from different versions.
+* [SPOI-11897] - Launching Database to Database Sync App gives SQL syntax error
+* [SPOI-11915] - No options are shown under 'Predefined Conditions' dropdown while creating new alert
+* [SPOI-11929] - Table widget should not have "Chart Axes" settings
+* [SPOI-11930] - Historical App Metrics data in table widget does not get refreshed even when "Load data continuously" option is enabled
+* [SPOI-11931] - Table widget issue in selecting check boxes for aggregates
+* [SPOI-11932] - Misalignment in "Time Range Selection" option in table widget
+* [SPOI-11933] - Time Range Selection option for Table widget returns less number of entries than that of requested
+* [SPOI-11934] - Unable to list widgets for "Snapshot :: App Stats" data source
+* [SPOI-11936] - Stram events doesn't scroll to bottom on page load
+* [SPOI-11939] - "Field to visualize" option in Trend widget does not show any options in dropdown
+* [SPOI-11959] - latency:AVG values are not displayed in table widget for Historical :: App Stats
+* [SPOI-11961] - Improvement: "failureCount" for 'Historical :: Operator Stats' should be SUM and not LAST
+* [SPOI-11962] - Mouseover text in stacked area chart does not change for historical data points
+* [SPOI-11968] - Application search from app details page does not work
+* [SPOI-11969] - All selected aggregate values for a metric are not displayed on dashboard
+* [SPOI-11973] - Chart legends are not shown if number of fields to visualize is more than 12
+* [SPOI-11974] - Gateway showing invalid license when server time changed
+* [SPOI-11981] - Invalid license due to HDFS not ready in Sandbox.
+* [SPOI-12025] - Historical data is not fetched for all the requested minute intervals
+* [SPOI-12032] - Required properties are missing
+* [SPOI-12046] - Gateway should exclude registering metrics datasource which are not enabled for metrics
+* [SPOI-12047] - Gateway throws exceptions while getting restarted after security configuration
+* [SPOI-12049] - App Metric Aggregation throws NPE when user code is called
+* [SPOI-12076] - Launching application throws FileNotFoundException in gateway log for 'datatorrent/apps/${appId}/permissions.json'
+* [SPOI-12079] - Too many NullPointerExceptions in dtgateway log when app connected to dashboard is killed
+* [SPOI-12080] - Too many NullPointerExceptions in dtgateway log when time range for historical data is set to 'All'
+* [SPOI-12081] - Table widget for historical data should resize to number of rows available for display
+* [SPOI-12082] - Grouping by root cause feature is not available
+* [SPOI-12086] - 'logicalOperatorName' column is blank for historical OperatorStats table widget
+* [SPOI-12089] - Time Format used for displaying and querying table widget data should be same
+* [SPOI-12091] - Widget data source selection not working with filtering
+* [SPOI-12092] - Obfuscate public key value in RTS jar
+* [SPOI-12100] - Specifying which metrics to write throws UnsupportedOperationException
+* [SPOI-12102] - Snapshot schema is not refreshing
+* [SPOI-12113] - Fix bullet chart
+* [SPOI-12115] - Opening hdfs-line-copy app on AppHub gives FileNotFoundException in logs
+* [SPOI-12116] - Retention policy for terminated apps does not work on 3.9.0
+* [SPOI-12117] - Data sources get sorted only after adding first widget
+* [SPOI-12124] - Gateway should not read the list datasources from metrics platform every sec
+* [SPOI-12125] - Too many warning messages in gateway log with IOException for changed Blocklist
+* [SPOI-12126] - Too many warning messages in gateway logs with InterruptedException while submitting Auto publish executor
+* [SPOI-12127] - Issues in HDFSStoreReader and Record Data structure
+* [SPOI-12129] - X-axis labels for Stacked Area chart are misaligned
+* [SPOI-12140] - App level metric processor delivers empty metrics for an operator
+* [SPOI-12141] - Clicking on physical operator details page for hdfs-line-copy app hangs UI
+* [SPOI-12152] - Long running apps with metric data give "Too many open files" exception in apex log
+* [SPOI-12153] - User should not be allowed to exit the modal when dashboard name is blank
+* [SPOI-12159] - 'create new dashboard' option on app details page overwrites existing dashboard with same name
+* [SPOI-12161] - Dashboards for restarted apps get stuck at original app data
+* [SPOI-12164] - Configuration issues modal text overflow
+* [SPOI-12167] - AppMaster fails with OutOfMemoryError for apps with metric data
+* [SPOI-12170] - RTS installation fails with NoClassDefFoundError for jackson libraries
+* [SPOI-12178] - ConcurrentModificationException in GroupingManager
+* [SPOI-12181] - Launching from app builder provides invalid notification
+* [SPOI-12186] - Properties for some of the operators are not displayed
+* [SPOI-12192] - Unavailable data sources are shown while adding widgets
+* [SPOI-12193] - Metrics platform does not honour "dt.write.metrics" property
+* [SPOI-12199] - Metrics lib writer should include jackson libraries are runtime dependencies
+* [SPOI-12216] - Clicking on logical operators link in breadcrumb does not show any list for searching
+* [SPOI-12217] - Clicking on module name in logical DAG gives 404
+* [SPOI-12219] - Make sure all dashboard widgets have the debug settings
+* [SPOI-12223] - Filtering on data sources should be done on app name and data source name only
+* [SPOI-12224] - Historical time range selection gives wrong number of records
+* [SPOI-12257] - Date time selection in Control widget has issues
+* [SPOI-12258] - ProductDataEnricher Operator gives “Unable to retrieve result ”
+* [SPOI-12260] - Application name is altered when control widget settings are applied to more than one applications
+* [SPOI-12261] - App Metrics should not expose "appUser" and "appName" keys as selectable dimensions for [HISTORICAL] data sources
+* [SPOI-12268] - When "time.from" and "time.to" are specified, "time.latestNumBuckets" should NOT be required.
+* [SPOI-12275] - Package Properties - value of a field (long list) is only partially visible.
+* [SPOI-12276] - Metrcis plugin throws IllegalStateException
+* [SPOI-12286] - Time range selection UI for Historical data is off
+* [SPOI-12287] - Querying with Historical time range does not return the data to widget
+* [SPOI-12290] - Geo circle widget does not honor custom fields for lon and lat
+* [SPOI-12293] - Historical time range selection settings are not preserved on refresh
+* [SPOI-12294] - Manually editing the value in Historical time range selection changes datetime format
+* [SPOI-12297] - Show all link in notification service causes page error
+* [SPOI-12302] - AppFactory - styling issues
+* [SPOI-12306] - Wrong sorting order for artifacts listing
+* [SPOI-12321] - Unable to view data on dashboards which after import on launch
+* [SPOI-12322] - X button to delete chosen application in Import Packaged Dashboard is hidden
+* [SPOI-12323] - Historical time range selection settings are not preserved
+* [SPOI-12332] - AppFactory - after importing appPackage, buttons should be refreshed automatically
+* [SPOI-12339] - Unable to retarget datasource in dashboard settings after adding widget
+
+### Appendix 
+#### Known Issues
+* [SPOI-11483] -  For FAILED applications, container state is shown as ACTIVE. Yarn returns containers of failed application as active.   
+  *Workaround* - Check for app status first.
+
+
+
+
+
+Version: 3.8.1
+------------------------------------------------------------------------------------------------------------------------
+
+Release date: Aug 14, 2017
+
+### Summary
+This minor release primarily addresses issues related to installation of DataTorrent RTS on a Hadoop cluster configured for secure mode.
+
+##### RTS Bug Fixes
+
+[SPOI-11694] : Fresh system-wide install fails with "DFS Installation Location failed to load" error
+[SPOI-11846] : Gateway fails when launching application in secure mode without authentication enabled
+[SPOI-11848] : Installation wizard fails on the hadoop configuration screen in secure mode
+[SPOI-11849] : The UI calls to retrieve properties in the wizard fail
+[SPOI-12047] : Gateway throws exceptions while getting restarted after security configuration
+
+##### Apache Apex Bug Fixes
+
+[APEXCORE-737] : Buffer server may stop processing tuples when backpressure is enabled
+[APEXCORE-745] : AppMaster does not shut down because numRequestedContainers becomes negative
+
+
+
+
+
+Version: 3.8.0
+------------------------------------------------------------------------------------------------------------------------
+
+Release date: Apr 18, 2017
+
+### Summary
+
+#### Application Templates (AppHub)
+Pre-built data ingestion templates speed time-to-production
+ 
+Deploy DataTorrent RTS application templates on a Hadoop distribution either on-premises or on the cloud. As part of this release, DataTorrent is providing AWS - EMR deployment script option for each available application template. As a result, development is simplified, enabling developers to more quickly and easily unlock value for customers. DataTorrent is focused on the goals of reducing complexity and removing dependency on Hadoop deployment, and this release represents progress in that direction.   
+
+#### Application Configurations
+Simplifying customized application launches
+ 
+Users can start with a single Application Package and create multiple Application Configurations to launch and run the applications on different environments (for instance, in test and development).  And, efficiencies can be realized across business units: one Application Package could have multiple configurations for multiple internal units.  Each Application Configuration introduces a safety feature, which ensures that only one instance of Application Configuration can run at a time.  The status whether Application Configuration is running or not, and controls to launch and stop the application instance are provided in the Application Configuration view.  This set of features improves management, adds safety, and increases transparency when managing and launching applications.
+
+### Debugging
+Improving log visualizations to speed up debugging
+ 
+#### StrAM Event Grouping
+The StrAM Events widget helps from development and operations perspectives to visualize notable events from the application launch and throughout its ongoing run.  With this release, StrAM events widgets now offers better readability by organizing these events into related groups.  For example, when multiple downstream operators are re-deployed due to a container failure. All events triggered by the system to restore normal function will be grouped under a single root event which caused the restarts.  With this improved readability, the user can quickly identify failure causes and then drill down into the logs for each event.
+
+#### Garbage Collection Widgets
+With this release, developers can more easily visualize garbage collection data trends—as opposed to sifting through logs. Three widgets are available for GC visualizations:
+
+* Garbage collection log chart by heap.  Visualizes when memory is allocated and deallocated 
+* Garbage collection log table.  List memory allocation and deallocation details
+* Garbage collection log chart by duration.  Visualizes how long it takes to deallocate memory 
+
+#### Log Tailing & Search
+Users can follow the logs as they are generated (tailing) with the RTS UI Console.  In this release, users can now also perform searches even when tailing to focus on specific events and exclude the noise.
+ 
+#### Alert Templates
+Simplifying and expanding alert functionality
+ 
+In 3.7.0, RTS introduced monitoring with alerts that a DevOps engineer could set up based on specific conditions. The 3.8.0 release continues to simplify and expand this functionality by adding:
+
+* Nine predefined system alert templates, including cluster and application memory usage, application status, and active container count, killed container alerts, etc.
+* Option to disable alerts without deleting them.
+* The ability to configure custom SMTP settings for sending alert emails, instead of relying on Gateway’s local node sendmail facility.
+ 
+#### Security
+ 
+Security enhancement in 3.8.0 applies to RTS deployment on secure Hadoop with Kerberos enabled. User's own Kerberos credentials can now be used directly by RTS to launch applications.  It is better from a security perspective.
+
+The previous model involved using a single system user with Kerberos credential (Hadoop impersonation)  to launch applications. That requires access to the system Kerberos credential in order to refresh tokens before they expire.  With user’s own Kerberos credential, that is no longer the case. 
+ 
+#### Licensing
+ 
+With the release of 3.8.0, DataTorrent is updating and simplifying its licensing policy.  What has changed?  
+
+Starting with 3.8, the Community Edition is no longer available. We are replacing the Community Edition with Free Edition.  Community Edition limited the features available to you, such as security.   Now with Free Edition you have access to all the features and tools of RTS up to a 128GB processing limit.
+
+Please refer to the DataTorrent website for additional details.
+
+#### Licensing FAQ
+ 
+_I have a Community Edition license. Is that edition still available?_  
+Starting with 3.8, the Community Edition is no longer available.   You can continue to use the Community Edition with RTS version 3.7.
+ 
+_How is license memory consumption calculated?_  
+License memory consumption is the sum of all running applications as can be seen in Configuration - License Information and Monitor.
+ 
+_What will happen when my memory consumption exceed my license limit?_  
+You’ll receive a warning, which is shown for 30 minutes before most RTS features will be disabled. All existing applications will continue to run. Should you need to upgrade, you can easily contact DataTorrent for a new license.
+ 
+_How will I know when my license is going to expire and what happens if the license expires?_  
+We provide warnings at 30 days and 7 days before expiration date.  When a license expires, most RTS features will be immediately disabled. All existing applications will continue to run. You can easily contact DataTorrent for a new license.  
+ 
+_What can I do once RTS is locked (either because my license memory has been exceeded or its expiration date has passed)?_  
+Users can view running applications and enter new license details to unlock RTS. The following capabilities are still accessible:
+* Configure - System Configuration is available 
+* Configure - License Information is available
+* Configure - Installation Wizard is available
+* Monitor - Application kill, inspect and shutdown are available
+* Monitor - Application Overview (shutdown and kill only) per application is available
+* Monitor - Containers (kill only)
+* AppHub (download only, no import)
+* Learn
+ 
+_Can I reduce the number of applications and return to compliance?_  
+Yes, you can do so if you have exceeded your memory capacity, assuming that your license has not expired
+
+_Can I reduce the memory usage of an application and bring it back to license compliance?_  
+Yes, assuming that your license has not expired.  Please note that you will have to restart the application.
+
+_I have an enterprise license for my production cluster. Can I use the Free Edition in a non- production cluster?_  
+Yes. It’s worth noting that only community support is available for the Free Edition. Please visit the DataTorrent User group for RTS-related questions: https://groups.google.com/forum/#!aboutgroup/dt-users
+ 
+For the Apache Apex mailing list and meetups information, please go to
+https://apex.apache.org/community.html#mailing-lists
+ 
+_Can I buy DataTorrent support for Free Edition?_  
+Unfortunately, no. DataTorrent support is sold as part of our Enterprise Edition. If you’re seeking support, you may consider upgrading.
+
+_Is Application Master Container memory consumption included in the calculation for processing capacity?_  
+Yes. Application Master Container consumes 1 GB by default and every application has its own Application Master. If application is not running, it does not run as well. It grows based on customer application build. Memory requirements increases along with the size of logical and physical DAG. Partitioners of an operator run in AppMaster.
+
+#### Additional Features of 3.8.0
+ 
+##### Multiple gateway support
+
+This allows simultaneous multiple gateway operations and increase fault tolerance due to management console failure. 
+
+When there are multiple gateways (usually for High Availability), different developers may access them at the same time, with different or same user accounts. These activities will often result in simultaneous modification of the same resource stored in HDFS, and invalidate cache entries on each client. For example: When developer A tries to save a configuration package and developer B has edited and saved the same package, developer A will get an error. Developer A would then have to manually merge the differences. This release introduces a new file-based locking mechanism with HTTP ETag header to handle that scenario.
+Known limitation: Alerts and visualization works correctly with single gateway only.
+
+##### Retain metric selections when returning to Monitor - Physical/Logical view
+Better user experience since RTS will keep what users have selected to view (e.g. metrics) as they go from one screen to another. 
+ 
+#### DataTorrent Apex Core fork
+RTS 3.8.0 is bundled with Apache Apex Core 3.5.0 plus forty feature and fixes that will be part of Apache Apex Core 3.6.0. Apex Core commits from Apr 3, 2017 will be included in RTS 3.9.0
+ 
+##### New Feature
+* [APEXCORE-579]     	Custom control tuple support
+* [APEXCORE-563]     	Have a pointer to container log filename and offset in StrAM events that deliver a container or operator failure event.
+
+##### Improvements
+* [APEXCORE-676]     	Show description for DefaultProperties only when user requests it
+* [APEXCORE-655]     	Support RELEASE as archetype version when creating a project
+* [APEXCORE-611]     	StrAM Event Log Levels
+* [APEXCORE-605]     	Suppress bootstrap compiler warning
+* [APEXCORE-592]     	Returning description field in defaultProperties during apex cli call get-app-package-info
+* [APEXCORE-572]     	Remove dependency on hadoop-common test.jar
+* [APEXCORE-570]     	Prevent upstream operators from getting too far ahead when downstream operators are slow
+* [APEXCORE-522]     	Promote singleton usage pattern for String2String, Long2String and other StringCodecs
+* [APEXCORE-426]     	Support work preserving AM recovery
+* [APEXCORE-294]     	Graceful application shutdown
+* [APEXCORE-143]     	Graceful shutdown of test applications
+
+##### Task
+* [APEXCORE-662]     	Raise StramEvent for heartbeat miss
+ 
+##### Dependency Upgrade
+* [APEXCORE-656]     	Upgrade org.apache.httpcomponents.httpclient
+
+##### Bug
+* [APEXCORE-674]     	DTConfiguration utility class ValueEntry access level was changed
+* [APEXCORE-663]     	Application restart not working.
+* [APEXCORE-648]     	Unnecessary byte array copy in DefaultStatefulStreamCodec.toDataStatePair()
+* [APEXCORE-645]     	StramLocalCluster does not wait for master thread termination
+* [APEXCORE-644]     	get-app-package-operators with parent option does not work
+* [APEXCORE-636]     	Ability to refresh tokens using user's own Kerberos credentials in a managed environment where the application is launched using an admin with impersonation
+* [APEXCORE-634]     	Apex Platform unable to set unifier attributes for modules in DAG
+* [APEXCORE-627]     	Unit test AtMostOnceTest intermittently fails
+* [APEXCORE-624]     	Shutdown does not work because of incorrect logic in the AppMaster
+* [APEXCORE-617]     	InputNodeTest intermittently fails with ConcurrentModificationException
+* [APEXCORE-616]     	Application fails to start Kerberised cluster
+* [APEXCORE-610]     	Avoid multiple getBytes() calls in Tuple.writeString
+* [APEXCORE-608]     	Streaming Containers use stale RPC proxy after connection is closed
+* [APEXCORE-598]     	Embedded mode execution does not use APPLICATION_PATH for checkpointing
+* [APEXCORE-597]     	BufferServer needs to shut down all created execution services
+* [APEXCORE-596]     	Committed method on operators not called when stream locality is THREAD_LOCAL
+* [APEXCORE-595]     	Master incorrectly updates committedWindowId when all partitions are terminated.
+* [APEXCORE-593]     	apex cli get-app-package-info could not retrieve properties defined in properties.xml
+* [APEXCORE-591]     	SubscribeRequestTuple has wrong buffer size when mask is zero
+* [APEXCORE-585]     	Latency should be calculated only after the first window has been complete
+* [APEXCORE-583]     	Buffer Server LogicalNode should not be reused by Subscribers
+* [APEXCORE-558]     	Do not use yellow color to display command strings in help output
+* [APEXCORE-504]     	Possible race condition in StreamingContainerAgent.getStreamCodec()
+* [APEXCORE-471]     	Requests for container allocation are not re-submitted
+
+#### DataTorrent RTS Bug Fixes
+
+* [SPOI-10021]	DTX Logical Operator page - BufferServerReadBytesPSMA and BufferServerWriteBytesPSMA to be removed
+* [SPOI-10107]	Application service returns DAG which is null
+* [SPOI-10118]	Upon launch of application, application details do not show up.
+* [SPOI-10153]	Add System Properties "change" button should be warm in color
+* [SPOI-10208]	Container state for failed attempt of app is shown as RUNNING
+* [SPOI-10266]	"host" information is not available in appattempts API call
+* [SPOI-10274]	Moving the mouse over the operator shows it as clickable but nothing happens
+* [SPOI-10331]	Delete user modal gives error when clicked outside the frame
+* [SPOI-10332]	Cancelling delete user action throws TypeError in developer console
+* [SPOI-10335]	Jersey throwing exceptions & excessive logging when WADL is enabled
+* [SPOI-10355]	Update Buttons and Text
+* [SPOI-10357]	Redirect User to Login Page
+* [SPOI-10363]	CheckPermission should not throw exception when auth is not enabled.
+* [SPOI-10416]	dtAssemble does not show connection between operators correctly
+* [SPOI-10421]	Fix oauth login
+* [SPOI-10438]	Hide Top Nav Menu Dropdown When Item is Clicked
+* [SPOI-10463]	Enhance Date/Time Picker for StrAM Events Date Range
+* [SPOI-10587]	Implement Date/Time Picker for Dashboard Widget
+* [SPOI-10588]	Change Button Label to Close During Launching
+* [SPOI-10862]	Multiple containers are labelled as AppMaster after dynamic partitioning
+* [SPOI-10866]	Time Range Selection Saved Settings Not Loaded Correctly
+* [SPOI-10894]	dtAssemble - Inspector contents not showing up consistently
+* [SPOI-10911]	determine AppMaster container by id that contains _000001 instead of by including 0 operators
+* [SPOI-10963]	appInstance page - fail to show "packagedDashboard" which is included in appPackage that appInstance is launched from
+* [SPOI-10970]	AppHub on gateway does not load in HTTPS
+* [SPOI-10996]	Subscribers/DataListeners may not be scheduled to execute even when they have data to process
+* [SPOI-10997]	BufferServer needs to shut down all created execution services
+* [SPOI-11000]	Upgrade org.apache.httpcomponents.httpclient
+* [SPOI-11024]	Alerts Icon Issue
+* [SPOI-11057]	Restart of the apps are failing
+* [SPOI-11108]	DAG View Javascript Error
+* [SPOI-11127]	Enhance "lastNbytes" to behave like "tail" command
+* [SPOI-11142]	Unable to launch app if another app with default APPLICATION_NAME is already running
+* [SPOI-11152]	Avoid usage of Apache Apex engine core class com.datatorrent.stram.client.DTConfiguration.ValueEntry
+* [SPOI-11163]	Cannot launch application from application details page
+* [SPOI-11164]	"Add default properties" option under "Specify launch properties" is missing
+* [SPOI-11168]	License API Does Not Return Latest State Information
+* [SPOI-11179]	Update Root Cause Failure to Use Newer Object Structure
+* [SPOI-11185]	Invalid license expiration message sent by Gateway
+* [SPOI-11186]	AppHub should be visible if license is invalid
+* [SPOI-11188]	App Packages search does not work for "format" column
+* [SPOI-11190]	Toggling "system apps" option does not show ended system apps
+* [SPOI-11192]	Search for "lifetime" column on Monitor screen does not work
+* [SPOI-11193]	Search for "memory" column on Monitor screen does not work
+* [SPOI-11194]	Search on "state" column on Monitor page is not alphabetical
+* [SPOI-11197]	Search on locality/source/sinks columns under Streams widget on logical tab does not work
+* [SPOI-11198]	Search for "allocated mem" and "free memory" under Containers widget does not work
+* [SPOI-11199]	"download file" option for empty container log files should be disabled
+* [SPOI-11200]	Search for "allocated mem" and "started time" under Containers widget  for app attempt does not work
+* [SPOI-11208]	DTgateway install screen messed up
+* [SPOI-11210]	On entering corrupt license file error message should be a proper one
+* [SPOI-11212]	Trailing and non trailing search should have same string
+* [SPOI-11213]	Unable to save SMTP configuration using gmail
+* [SPOI-11214]	Launching application with ï¿¼"Enable Garbage Collection" throws 404
+* [SPOI-11215]	ADMIN_NOT_CONFIGURED warning is only shown to Dev user instead of admin
+* [SPOI-11220]	Fresh RTS installation fails because of blank response from "/ws/v2/config" api call
+* [SPOI-11222]	StackTrace feature not available from physical tab containers widget
+* [SPOI-11223]	Show "Password change" warning for dtadmin only
+* [SPOI-11231]	AppHub fails to load previous package versions
+* [SPOI-11234]	Show all AppHub package versions option is missing in list view
+* [SPOI-11236]	Extend application-level gc.log API to take in new parameter "descendingOrder" (false/true)
+* [SPOI-11237]	Angular not resolving certain dtText-wrapped expressions in Console modals
+* [SPOI-11238]	AppHub Check for Updates Does Not Show In All Cases
+* [SPOI-11242]	"Upload package" option on Application Packages should not be available with invalid/no license
+* [SPOI-11265]	Invalid message displayed when no license is uploaded
+* [SPOI-11266]	Alert notification is delayed
+* [SPOI-11270]	System Alert history is empty after relogin
+* [SPOI-11271]	Developer user cannot create system alert
+* [SPOI-11281]	.class file generated by tuple schema manager is invalid
+* [SPOI-11291]	Creating clone of JSON application gives 500 Server Error
+* [SPOI-11303]	Creating clone of JSON application gives 500 Server Error (UI)
+* [SPOI-11304]	App package load errors after migrating from 3.7 to 3.8
+* [SPOI-11307]	Search for "lifetime" column on Monitor screen does not work
+* [SPOI-11318]	Copy To Clipboard option from Failure Message modal does not work
+* [SPOI-11323]	Upgrade from 3.7.0 evaluation edition to 3.8.0 retains old license
+* [SPOI-11325]	Selecting KILLED applications and then disabling ended apps, shows shutdown/kill options
+* [SPOI-11326]	Clean install of 3.8.0 comes with no license
+* [SPOI-11327]	StramEvents are grouped incorrectly
+* [SPOI-11366]	Copy to clipboard not working when viewing stram event stack trace
+* [SPOI-11367]	Wrong 'uptime' value in Application Overview
+* [SPOI-11368]	Log and info icons should be right aligned in stram events
+* [SPOI-11369]	Socket is unsubscribed by Console when critical path is not checked
+* [SPOI-11371]	"source package" column in Application Configurations table is not sortable
+* [SPOI-11372]	Unable to view gc.log on UI
+* [SPOI-11375]	Wrong stream locality is shown in Physical DAG widget
+* [SPOI-11377]	Incorrect GC stats for logical operators if they are connected by CONTAINER_LOCAL stream
+* [SPOI-11379]	Heap reduction percentage is negative for some GC events
+* [SPOI-11382]	UI hangs when trying to change settings for GC Log Chart widgets
+* [SPOI-11383]	Selecting a container in GC Log Chart widgets throws error in Developer console
+* [SPOI-11417]	Memory usage of App Data Tracker is not counted against license
+* [SPOI-11418]	Event grouping: UI should ignore groupId 0 & null
+* [SPOI-11421]	Unable to use Security Configuration feature with free license
+* [SPOI-11422]	Admin user should not be able to delete its own user account
+* [SPOI-11424]	Show tooltip for version string in application overview widget
+* [SPOI-7887]  	PUT /ws/v2/appPackages/{owner}/{packageName}/{packageVersion}/applications/{applicationName}[?errorIfExists={true/false}] should return error instead of success where there is error "Failed to load"
+* [SPOI-8248]  	Packaged dashboards do not reconnect with new app instances
+* [SPOI-8477]  	Upgrade License Opens in dtManage window, it should be in opened up in new window
+* [SPOI-8610]  	Disable editing operator properties which are of Object type
+* [SPOI-9375]  	Uptime values shown on UI are out of whack immediately after app is launched
+* [SPOI-9474]  	Failed to restart DT application in MapR secure cluster
+* [SPOI-9921]  	Delete widgets on default pane of physical operators needs to have warm colors
+* [SPOI-9945]  	Top navigation menu is wrapping into two lines
+
+
+Version: 3.7.1
+------------------------------------------------------------------------------------------------------------------------
+
+Release date: Feb 28, 2017
+
+### Summary
+This is primarily for users who install RTS in a Kerberized cluster as application fails to launch in 3.7.0. This release fixes the issue. 
+
+Other issues that are also fixed:
+
+* In 3.6.0, users have the option to override certain properties from the config file. This ability was missing in 3.7.0.
+* Gateway fails to recognize AppDataTracker application and it continuously relaunched on a Kerberized cluster.
+* On a Kerberized cluster, when the configuration parameters are specified in the `dt-site.xml` file in the user's home directory, the installation wizard does not allow the user to continue with the installation.
+
+### Appendix
+
+#### Bug Fixes
+* [SPOI-10698] - Allow Custom Properties with Config XML file while launching an application
+* [SPOI-10737] - AppDataTracker application relaunches continuously and fails in a Kerberized cluster.
+* [SPOI-10932] - Installation Wizard does not allow to complete gateway configuration
+* [SPOI-10773] - Application fails to run in fully enabled Kerberized mode (APEXCORE-616 - https://issues.apache.org/jira/browse/APEXCORE-616)
 
 Version: 3.7.0
 ------------------------------------------------------------------------------------------------------------------------

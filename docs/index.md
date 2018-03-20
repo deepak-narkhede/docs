@@ -106,6 +106,6 @@ DataTorrent RTS, built on Apache Apex, provides a high-performing, fault-toleran
   <a href="create" class="jumbotron-section">
     <img src="images/welcome/dt_toolbox.svg">
     <h2>Create Apps</h2>
-    <p>Tutorials and code samples to rapidly create DataTorrent applications using Java or dtAssemble.</p>
+    <p>Tutorials, operator library and code samples to rapidly create DataTorrent applications using Java.</p>
   </a>
 </div>

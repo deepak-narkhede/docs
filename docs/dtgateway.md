@@ -33,7 +33,7 @@ For information on configuring security see [dtGateway security](dtgateway_secur
 
 ## System Alerts
 
-The DT Gateway System Alerts provides a way for users to monitor metrics in the Hadoop cluster and of running applications.  When an alert condition becomes true continuously within the specified time set for that alert, the Gateway sends an email to the email address or addresses associated with that alert.  The same is true for alerts condition changing to a false state. The alert conditions are written in JavaScript. Alerts are created via the **PUT /ws/v2/systemAlerts/alerts/{name}** documented in the [REST API](dtgateway_api.md).  For more detail documentation on System Alerts, please refer to [this document](dtgateway_systemalerts.md).
+System Alerts provide a way for users to monitor cluster and application metrics. When an alert condition (written in JavaScript) turns true and stays that way for a configured time interval, dtGateway sends email to the configured list of email addresses. The same is true when the condition turns false. Alerts are created via the **PUT /ws/v2/systemAlerts/alerts/{name}** call documented in the [REST API](dtgateway_api.md). For more details on System Alerts, please see [this document](dtgateway_systemalerts.md).
 
 
 ## Rest API

@@ -10,10 +10,10 @@ This document has a step-by-step guide to configure, customize, and launch this 
 
 ## <a name="steps_to_launch">Steps to launch application</a>
 
-1. Click on the AppHub tab from the top navigation bar.
+1. Click on the AppFactory tab from the top navigation bar.
     ![AppHub link from top navigation bar](images/common/apphub_link.png)
 
-1. Page listing the applications available on AppHub is displayed. Search for S3 to see all applications related to S3.
+1. Page listing the applications available on AppFactory is displayed. Search for S3 to see all applications related to S3.
     ![AppHub search for S3](images/s3-to-hdfs-sync/apphub-search.png)
     Click on import button for `S3 to HDFS Sync App`.
 
@@ -22,38 +22,35 @@ This document has a step-by-step guide to configure, customize, and launch this 
     ![App import Notification](images/s3-to-hdfs-sync/import-notification.png)
 
 1. Click on the link in the notification which navigates to the page for this application package.
+
     ![App details page](images/s3-to-hdfs-sync/app-details-page.png)
-    Detailed information about the application package like version, last modified time, and short description is available on this page. Click on launch button for `S3-to-HDFS-Sync` application.
 
-1. <a name="launch-dialogue"></a>`Launch S3-to-HDFS-Sync` dialogue is displayed. One can configure name of this instance of the application from this dialogue.
-![Launch dialogue](images/s3-to-hdfs-sync/launch.png)
+    Detailed information about the application package like version, last modified time, and short description is available on this page. Click on launch button for `S3-to-HDFS-Sync` application. In the confirmation modal, click the Configure button.
 
-1. Select `Use saved configuration` option. This displays a list of pre-saved configurations.
-Please select `sandbox-memory-conf.xml` or `cluster-memory-conf.xml` depending on whether
-your environment is the DataTorrent sandbox, or other cluster.
-    ![Select saved configuration](images/common/saved-conf.png)
+1. The <a name="launch-dialogue"></a>`S3-to-HDFS-Sync` application configuration page is displayed. The Required Properties section must be completed before the application can be launched.
 
-1. Select `Specify custom properties` option. Click on `add default properties` button.
-    ![Specify custom properties](images/common/specify-custom.png)
+    ![Launch dialogue](images/s3-to-hdfs-sync/launch.png)
 
-1. This expands a key-value editor pre-populated with mandatory properties for this application. Change values as needed.
-    ![Properties editor](images/s3-to-hdfs-sync/property-editor.png)
     <a name="property-editor"></a>
     For example, suppose we wish to copy from all files in `directory1` from `com.example.s3test` using `ACCESS_KEY_ID:SECRET_KEY` combination to `/user/appuser/output` on the host cluster (on which app is running). Properties should be set as follows:
 
     |name|value|
-    |-|-|
-    |dt.operator.HDFSFileCopyModule.prop.outputDirectoryPath|/user/appuser/output|
-    |dt.operator.S3InputModule.prop.files|s3n://ACCESS_KEY_ID:SECRET_KEY@com.example.s3test/directory1 |
+    |---|---|
+    |Access Key For S3Input |ACCESS_KEY_ID|
+    |Bucket Name For S3Input |BUCKET_NAME|
+    |Input Directory Or File Path On S3 |/directory1|
+    |Output Directory Path On HDFS |/user/appuser/output/directory1|
+    |Secret Key For S3Input |SECRET_KEY|
 
     Details about configuration options are available in [Configuration options](#configuration_options) section.
 
-1. Click on the `Launch` button on lower right corner of the dialog to launch the application.
-A notification is displayed on the top right corner after application is launched successfully and includes the Application ID which can be used to monitor this instance and to find its logs.
+1. When you are finished inputting application configuration properties, click on the `save` button on the top right corner of the page to save the configuration.
+
+1. Click on the `launch` button at the top right corner of the page to launch the application.
+A notification will be displayed on the top right corner after application is launched successfully and includes the Application ID which can be used to monitor this instance and to find its logs.
     ![Application launch notification](images/common/app_launch_notification.png)
 
 1. Click on the `Monitor` tab from the top navigation bar.
-    ![Monitor tab](images/common/monitor_link.png)
 
 1. A page listing all running applications is displayed. Search for the current application based on name or application id or any other relevant field. Click on the application name or id to navigate to application instance details page.
     ![Apps monitor listing](images/common/apps_monitor_listing.png)
@@ -74,7 +71,7 @@ End user must specify the values for these properties (these properties are all 
 |<p style="font-size:12px">dt.operator.S3InputModule.prop.files|Access URL for S3 source|<p style="font-size:12px">s3n://ACCESS_KEY_ID:SECRET_KEY<br/>@BUCKET_NAME/DIRECTORY |
 
 ### Advanced properties
-There are pre-saved configurations based on the application environment. Recommended settings for [datatorrent sandbox edition](https://www.datatorrent.com/download/datatorrent-rts-sandbox-edition-download/) are in `sandbox-memory-conf.xml` and for a cluster environment in `cluster-memory-conf.xml`.
+There are pre-saved configurations based on the application environment. Recommended settings for [datatorrent sandbox](https://www.datatorrent.com/download/datatorrent-rts-sandbox-edition-download/) are in `sandbox-memory-conf.xml` and for a cluster environment in `cluster-memory-conf.xml`.
 
 |Property|Description|Type|Default for<br/>cluster-<br/>memory-<br/> conf.xml|Default for<br/>  sandbox<br/>-memory -<br/>conf.xml|
 |-|-|-|-|-|
@@ -118,7 +115,8 @@ You can override default values for advanced properties by specifying custom val
     This will generate the application package with `.apa` extension in the `target` directory.
 
 1. Go to DataTorrent UI Management console on web browser. Click on the `Develop` tab from the top navigation bar.
-   ![Develop tab](images/common/develop_link.png)
+
+1. Click on `Application Packages` from the list.
 
 1. Click on `upload package` button and upload the generated `.apa` file.
    ![Upload](images/common/upload.png)

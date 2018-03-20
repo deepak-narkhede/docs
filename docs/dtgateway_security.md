@@ -39,16 +39,36 @@ DataTorrent Gateway has support for authentication and when it is configured use
 
 The different authentication mechanisms supported by Gateway are
 
--   Password
--   Kerberos
--   JAAS for LDAP, Active Directory, PAM etc
+-   [Password Authentication](#password-authentication)
+-   [LDAP Authentication](#ldap-authentication)
+-   [Kerberos Authentication](#kerberos-authentication)
+-   [JAAS Authentication](#jaas-authentication) for Active Directory, PAM, etc
 
 JAAS is a extensible authentication framework that supports different types of authentication mechanisms by plugging in an appropriate module.
 
 ### Password Authentication
 
-This is the only authentication mechanism presented here that does
-not depend on any external systems. The users will be managed locally by Gateway. When enabled, all users will be presented with the login prompt before being able to use the DT Console. Password authentication can be enabled by performing following two steps.
+Password security is simple to set up and is ideal for a small to medium set of users. It comes with role-based access control, so users can be assigned roles, and roles can be assigned granular permissions (see [User Management](dtmanage/#user-management)). This is the only authentication mechanism available that does not depend on any external systems. The users will be managed locally by the Gateway. When enabled, all users will be presented with the login prompt before being able to use the DT Console.
+
+To set up password security, on the [Security Configuration](dtmanage/#security-configuration) page select **Password** from the *Authentication Type* dropdown, and save. Allow the Gateway to restart.
+
+![Security Configuration - Password](images/dtmanage/security-password.png)
+
+When the Gateway has restarted, you should be prompted for username and password. Log in as the default admin user **dtadmin** with password **dtadmin**.
+
+![](images/GatewaySecurity/image02.png)
+
+Once authenticated, active username and an option to log out is presented in the top right corner of the DT Console screen.
+
+![](images/GatewaySecurity/image00.png)
+
+Additional users and roles can be created and managed on the [User Management](#user-management) page.
+
+*Note*: Don't forget to change your **dtadmin** user's password!
+
+#### Password Authentication via dt-site.xml
+
+Password authentication can alternatively be configured outside the Console by performing following two steps:
 
 1.  Add a property to `dt-site.xml` configuration file, typically located
     under `/opt/datatorrent/current/conf` ( or `~/datatorrent/current/conf` for local install).
@@ -62,22 +82,54 @@ not depend on any external systems. The users will be managed locally by Gateway
         ...
         </configuration>
 
-2.  Restart the Gateway by running
+2.  Restart the Gateway. If running Gateway in local mode use `dtgateway restart` instead.
 
         sudo service dtgateway restart
 
-	( when running Gateway in local mode use  dtgateway restart command)
 
-Open the Gateway URL in your browser, and you should be prompted for
-user name and password.  Starting with DataTorrent RTS 2.0.0, the
-default username and password is **dtadmin** and **dtadmin**.
+### LDAP Authentication
 
-![](images/GatewaySecurity/image02.png)
+LDAP is a directory based authentication mechanism used in many enterprises. If your organization uses LDAP for authentication, the LDAP security option is ideal for giving your existing users access to RTS, with role-based access control and group mapping features.
 
-Once authenticated, active user name and an option to log out is
-presented in the top right corner of the DT Console screen.
+There are four variations for configuring LDAP authentication:
 
-![](images/GatewaySecurity/image00.png)
+  * **Identity**
+    * Provide the parent DN of your users and _specify the RDN attribute of users_.
+    * Users will authenticate using their RDN attribute value as their username.
+  * **Anonymous & User Search Filter**
+    * Provide the parent DN of your users and _specify a search filter to identify users_.
+    * Users will authenticate using an appropriate username that matches the parameters defined in the search filter.
+  * **Identity and Anonymous Search**
+    * Provide the parent DN of your users, _specify the RDN attribute of users, and a search filter_.
+    * Users will authenticate using their RDN attribute value as their username, as well as the parameters defined in the search filter.
+  * **Non-Anonymous Search with Group Support**
+    * Provide basic DN info for users, DN and password of a user able to perform a non-anonymous search, and optional group support info.
+    * With _group support disabled_, users need to be added in User Management before logging in, unless a default role is set. Users authenticate with their User Id Attribute value as their username.
+    * With _group support enabled_, users do **not** have to be added in User Management before logging in. Users authenticate with their User Id Attribute value as their username. They will be assigned roles mapped to their LDAP group. For example, user Peter is part of GroupA (admin) and GroupB (developer, operator); Peter will be assigned roles admin, developer, and operator upon login.
+
+When group support is not configured, users must be assigned a role before they are able to log in, unless a default role is set. This means users can be restricted from logging in (blacklisted) by removing all of their roles. Default roles will not be reapplied after a user's initial login, and therefore will not interfere with restricting users.
+
+*Note*: If migrating from *Password* mode, the existing users will be carried over as "local users" and can still login as if in *Password* mode. It is recommended to keep only the **dtadmin** user and delete the rest. This is because local users cannot be added or deleted once *LDAP* mode is activated.
+
+![Security Configuration - LDAP](images/dtmanage/security-LDAP.png)
+
+After setting up LDAP in the Security Configuration page, the **LDAP Users** section will appear in the User Management page. If you have group support enabled, the **LDAP Groups** section will also appear. Existing users (carried over from *Password* mode), will be placed in the **Local Users** sections. Local users cannot be added or deleted in LDAP mode, but their roles and passwords can be modified.
+
+![](images/dtmanage/user-management-LDAP.png)
+
+To configure LDAP via dt-site.xml, check out the [JAAS Authentication - LDAP](#ldap) section below.
+
+### Active Directory Authentication
+
+Active Directory (AD) is a directory based authentication mechanism for users in Microsoft Windows domains. Active Directory supports role-based access control and group mapping features.
+
+To configure Active Directory, follow the steps to configure [LDAP](#ldap-authentication) with the **Non-Anonymous Search with Group Support** variation. The only difference is the additional User Object Class field.
+
+![Security Configuration - AD](images/dtmanage/security-AD.png)
+
+User Management for Active Directory behaves the same as LDAP with the **Non-Anonymous Search with Group Support** variation.
+
+To configure Active Directory via dt-site.xml, check out the [JAAS Authentication - Active Directory](#active-directory) section below.
 
 ### Kerberos Authentication
 
@@ -111,7 +163,7 @@ can be same as the Hadoop web-service Kerberos credentials which are
 typically identified with the principal HTTP/HOST@DOMAIN. A few other
 configuration properties are also needed. These can be specified in the
 same “dt-site.xml” configuration file as the DT Gateway authentication
-configuration described in the Operation and Installation Guide. This
+configuration described in the [Configuration](configuration.md). This
 authentication can be set up using the following steps.
 
 1.  Add the following properties to `dt-site.xml` configuration file, typically located under `/opt/datatorrent/current/conf` ( or `~/datatorrent/current/conf` for local install)
@@ -248,7 +300,7 @@ Custom callback handlers can be implemented by extending the default callback ha
 
 #### LDAP
 
-LDAP is a directory based authentication mechanism used in many enterprises. To enable LDAP authentication follow the JAAS configuration steps described above with the following specific details for the individual steps.
+An alternative way to enable LDAP authentication, instead of [LDAP Authentication](#ldap-authentication) section above, is to follow the JAAS configuration steps described above with the following specific details for the individual steps.
 
 -   For step 1 of the JAAS authentication [configuration process](#enabling-jaas-auth), pick a name for the JAAS module for LDAP. You can choose a name like ```ldap``` that is appropriate for the current scheme. This can be done by specifying the value of the ```dt.gateway.http.authentication.jaas.name``` property to be ```ldap```. This name should now be configured with the appropriate settings as described in the next step.
 
@@ -280,7 +332,7 @@ settings are only provided as a reference example.
 
 #### Active Directory
 
-Active Directory is used when authenting users in Microsoft Windows domains. The authentication protocol includes Microsoft's implementation of Kerberos as well as LDAP. In this section we will look into the configuration needed for LDAP authentication with Active Directory.
+Active Directory is used when authenticating users in Microsoft Windows domains. The authentication protocol includes Microsoft's implementation of Kerberos as well as LDAP. The recommended way to configure Active Directory is described in [Active Directory Authentication](#active-directory-authentication), in this section we will look at an alternative way with JAAS.
 
 Follow the JAAS configuration steps described above with the following specific details.
 
@@ -511,7 +563,7 @@ Manage users (create/delete users, change password)
 
 #### UPLOAD_APP_PACKAGES
 
-Upload App Packages and use the app builder
+Upload App Packages
 
 #### VIEW_GLOBAL_CONFIG
 
@@ -610,12 +662,12 @@ every time they launch an app or uploads an app package.
 The default for app and app package sharing is that the “operator” role
 has read-only permission.
 
-As of RTS 2.0.0, the Console does not yet support managing App
+The Console does not yet support managing App
 Permissions or App Package Permissions.  But one can manage App
 Permissions and App Package Permissions using the Gateway REST API with
 URI’s /ws/v2/apps/{appid}/permissions and
 /ws/v2/appPackages/{user}/{name}/permissions respectively.  Please refer
-to the [DT Gateway REST API document](https://www.datatorrent.com/docs/guides/DTGatewayAPISpecification.html) and [here](#AdministeringUsingCommandLine) for examples on how to use the REST API.
+to the [DT Gateway REST API document](http://docs.datatorrent.com/dtgateway_api/) and [here](#AdministeringUsingCommandLine) for examples on how to use the REST API.
 
 
 ## Viewing and Managing Auth in the Console
@@ -821,34 +873,73 @@ This command returns the information about the user “john”.
 
 This command removes the user “jane”.
 
+## Setting up SSL Keystore in Gateway
 
-## Enabling HTTPS in Gateway
+An SSL keystore is needed for your gateway to enable HTTPS in the gateway and to configure SMTP with password authentication. SMTP configuration is needed for the gateway to 
+send email alerts as described in [System Alerts](dtgateway_systemalerts.md). 
 
-HTTPS in the Gateway can be enabled by performing following two steps.
+Follow the steps below to set up the keystore.
 
-1.  Generate an SSL keystore if you don’t have one.  Instruction on how to generate an SSL keystore is here: [http://docs.oracle.com/cd/E19509-01/820-3503/ggfen/index.html](http://docs.oracle.com/cd/E19509-01/820-3503/ggfen/index.html)
+1. Generate an SSL keystore if you don’t have one.  Instruction on how to generate an SSL keystore is here: [http://docs.oracle.com/cd/E19509-01/820-3503/ggfen/index.html](http://docs.oracle.com/cd/E19509-01/820-3503/ggfen/index.html).
+Note down the keystore password and full path of the keystore that you need to provide in the next step.
 
-2.  Add a property to dt-site.xml configuration file, typically located under `/opt/datatorrent/current/conf` ( or `~/datatorrent/current/conf` for local install).
+2. Add two properties to `dt-site.xml` configuration file, typically located under `/opt/datatorrent/current/conf` (or `~/datatorrent/current/conf` for local install).
 
         <configuration>
         ...
           <property>
-                   <name>dt.gateway.sslKeystorePath</name>
-                   <value>{/path/to/keystore}</value>
+            <!-- this is the full path to the SSL keystore you created -->
+              <name>dt.gateway.sslKeystorePath</name>
+              <value>{/path/to/keystore}</value>
           </property>
           <property>
-                    <name>dt.gateway.sslKeystorePassword</name>
-                     <value>{keystore-password}</value>
-          </property>
-          <property>
-            <name>dt.attr.GATEWAY_USE_SSL</name>
-                  <value>true</value>
+            <!-- this is the keystore password -->
+              <name>dt.gateway.sslKeystorePassword</name>
+              <value>{keystore-password}</value>
           </property>
         ...
         </configuration>
 
-3.  Restart the Gateway by running
+3. Perform any additional steps required for "Enabling HTTPS" or "SMTP Password Encryption" use-case as described below.
+
+4. Restart the Gateway by running
 
         sudo service dtgateway restart
-		
-    ( when running Gateway in local mode use `dtgateway restart` command)
+
+    (when running Gateway in local mode use `dtgateway restart` command)
+
+### Enabling HTTPS in Gateway
+
+To enable HTTPS in the Gateway after setting up the keystore as described above, you have to add the following
+property to the `dt-site.xml` configuration file
+
+        <configuration>
+        ...
+          <property>
+            <name>dt.attr.GATEWAY_USE_SSL</name>
+            <value>true</value>
+          </property>
+        ...
+        </configuration>
+
+### Setting up a Key for SMTP Password Encryption
+
+Add another key to the keystore created above using the instructions mentioned in [http://docs.oracle.com/cd/E19509-01/820-3503/ggfen/index.html](http://docs.oracle.com/cd/E19509-01/820-3503/ggfen/index.html). For example:
+
+```
+keytool -genkey -alias smtpenc-alias -keyalg RSA -keypass <key password> -storepass <store password> -keystore gwkeystore.jks
+```
+
+Note down the alias you used for the key (smtpenc-alias in the above command). Remember to use the same key password and 
+store password as the ones you used in the previous command where you created the keystore.
+
+Add the following property to `dt-site.xml` to indicate the alias to be used for SMTP Password Encryption:
+
+        <configuration>
+        ...
+         <property>
+           <name>dt.gateway.ssl.alias.password.encryption</name>
+           <value>smtpenc-alias</value>
+         </property>
+        ...
+        </configuration>

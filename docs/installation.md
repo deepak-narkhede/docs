@@ -139,3 +139,47 @@ After the system installation is complete, remaining configuration steps are per
 The Installation Wizard can be accessed and repeated at any time to update key system settings from the Configuration section of the DataTorrent UI Console.
 
 DataTorrent installation can be verified by running included demo applications.  See [Launching Demo Applications](demos.md) for details.
+
+*Note*: The ability to connect to this node and port depends on your environment, and may require special setup such as an ssh tunnel, firewall configuration changes, VPN access, etc.
+
+
+Disaster Recovery Setup
+--------------------------------------------------------------------------------
+If you have multiple Hadoop clusters for handling the disasters, then you can install multiple instances of the Gateway on the same machine and service account with each gateway pointing to different cluster.
+
+### Installing Gateway with dtuser(or any other) User
+
+1. Create dtadmin user. This user must have uid > 1000. (adduser -u 1100 dtadmin).
+2. Switch to dtadmin user.
+3. Copy the hadoop **conf** dir from both the hadoop clusters to the home of dtadmin user. Name them such that you can differentiate between them (For example, $HOME/hadoop_conf1 and $HOME/hadoop_conf2).
+4. Download the latest version of the DT RTS installable binary file (datatorrent-rts-<version>.bin).
+5. Export JAVA_HOME, HADOOP_HOME and add in PATH. For example:
+   * export HADOOP_HOME=/opt/hadoop-2.6.5 
+   * export JAVA_HOME=/usr 
+   * export PATH=$HADOOP_HOME/bin:$JAVA_HOME/bin:$PATH
+6. Install the first gateway instance using the following command:
+```
+./datatorrent-rts-<version>.bin -E DT_LOG_DIR=$HOME/datatorrent1 -E DT_RUN_DIR=$HOME/datatorrent1 -E HADOOP_CONF_DIR=$HOME/hadoop_conf1 -B $HOME/datatorrent1 -g 9090
+```
+7. Install the second gateway instance using the following command:
+```
+./datatorrent-rts-<version>.bin -E DT_LOG_DIR=$HOME/datatorrent2 -E DT_RUN_DIR=$HOME/datatorrent2 -E HADOOP_CONF_DIR=$HOME/hadoop_conf2 -B $HOME/datatorrent2 -g 9091
+```
+
+### Installing Gateway with the Root User:
+1. Copy the hadoop **conf** dir from both the hadoop clusters to the home of dtadmin user. Name them such that you can differentiate between them (For example, /opt/hadoop_conf1 and /opt/hadoop_conf2).
+2. Download the latest version of the DT RTS installable binary file (datatorrent-rts-<version>.bin).
+3. Export JAVA_HOME, HADOOP_HOME and add in PATH. For example:
+   * export HADOOP_HOME=/opt/hadoop-2.6.5 
+   * export JAVA_HOME=/usr 
+   * export PATH=$HADOOP_HOME/bin:$JAVA_HOME/bin:$PATH
+4. Install the first gateway instance using the following command:
+```
+./datatorrent-rts-<version>.bin -E DT_LOG_DIR=/opt/datatorrent1 -E DT_RUN_DIR=/opt/datatorrent1 -E HADOOP_CONF_DIR=/opt/hadoop_conf1 -B /opt/datatorrent1 -g 9090
+```
+5. Install the second gateway instance using the following command:
+```
+./datatorrent-rts-<version>.bin -E DT_LOG_DIR=/opt/datatorrent2 -E DT_RUN_DIR=/opt/datatorrent2 -E HADOOP_CONF_DIR=/opt/hadoop_conf2 -B /opt/datatorrent2 -g 9091
+```
+**Note :** If you are installing the gateway as a root user, the gateway gets installed globally (or as a service). Hence if you install the second instance after you installing the first,  the command ```service dtgateway stop ``` is used, instead of local script, to stop any previously installed gateways. 
+Since gateway services are global, the installer cannot distinguish if the previous gateway service is installed at a different location, even if you have provided a new set of directories in the second install, and thus stops the previous service.

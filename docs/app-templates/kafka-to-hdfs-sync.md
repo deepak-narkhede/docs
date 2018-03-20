@@ -10,55 +10,46 @@ This document has a step-by-step guide to configure, customize, and launch this 
 
 ## <a name="steps_to_launch">Steps to launch application</a>
 
-1. Click on the AppHub tab from the top navigation bar.
-   ![AppHub link from top navigation bar](images/common/apphub_link.png)
+1. Click on the AppFactory tab from the top navigation bar. 
+   ![AppHub link from top navigation bar](images/common/apphub_link.png) 
+   Page listing the applications available on AppFactory is displayed.
 
-1. Page listing the applications available on AppHub is displayed.
-Search for Kafka to see all applications related to Kafka.
-   ![AppHub search for Kafka](images/kafka-to-hdfs-sync/apphub-search.png)
-   Click on import button for `Kafka to HDFS Sync App`.
-
-1. Notification is displayed on the top right corner after application package is successfully
+1. Search for Kafka to view all the applications related to Kafka.
+1. Click on import button for `Kafka to HDFS Sync App`. 
+Notification is displayed on the top right corner after application package is successfully
    imported.
    ![App import Notification](images/kafka-to-hdfs-sync/import-notification.png)
 
 1. Click on the link in the notification which navigates to the page for this application package.
-   ![App details page](images/kafka-to-hdfs-sync/app-details-page.png)
-   Detailed information about the application package like version, last modified time, and short description is available on this page. Click on launch button for `Kafka-to-HDFS-Sync` application.
 
-1. <a name="launch-dialogue"></a>`Launch Kafka-to-HDFS-Sync` dialogue is displayed. One can configure name of this instance of the application from this dialogue.
-   ![Launch dialogue](images/kafka-to-hdfs-sync/launch.png)
+    ![App details page](images/kafka-to-hdfs-sync/app-details-page.png)
 
-1. Select `Use saved configuration` option. This displays list of pre-saved configurations.
-Please select `sandbox-memory-conf.xml` or `cluster-memory-conf.xml` depending on whether
-your environment is the DataTorrent sandbox, or other cluster.
-   ![Select saved configuration](images/kafka-to-hdfs-sync/saved-conf.png)
+    Detailed information about the application package like version, last modified time, and short description is available on this page. Click on launch button for `Kafka-to-HDFS-Sync` application. In the confirmation modal, click the Configure button.
 
-1. Select `Specify custom properties` option. Click on `add default properties` button.
-   ![Specify custom properties](images/kafka-to-hdfs-sync/specify-custom.png)
+1. The <a name="launch-dialogue"></a>`Kafka-to-HDFS-Sync` application configuration page is displayed. The Required Properties section must be completed before the application can be launched.
 
-1. This expands a key-value editor pre-populated with mandatory properties for this application. Change values as needed.
-   ![Properties editor](images/kafka-to-hdfs-sync/property-editor.png)
-   <a name="property-editor"></a>
-   For example, suppose we wish to process all messages from topic `transactions` at the kafka server running on localhost port 9092
-   and write them to `output.txt` under `/user/appuser/output` on HDFS. Properties should be set as follows:
+    ![Launch dialogue](images/kafka-to-hdfs-sync/launch.png)
+
+    <a name="property-editor"></a>
+    For example, suppose we wish to process all messages from topic `transactions` at the kafka server running on localhost port 9092
+    and write them to `output.txt` under `/user/appuser/output` on HDFS. Properties should be set as follows:
 
     |name|value|
     |---|---|
-    |dt.operator.fileOutput.prop.filePath|/user/appuser/output|
-    |dt.operator.fileOutput.prop.outputFileName|output.txt|
-    |dt.operator.kafkaInput.prop.clusters|localhost:9092|
-    |dt.operator.kafkaInput.prop.initialOffset|EARLIEST|
-    |dt.operator.kafkaInput.prop.topics|transactions|
+    |Kafka Broker List |kafka-server-node:9092|
+    |Kafka Topic Name |test|
+    |Output Directory Path |/user/appuser/input|
+    |Output File Name |output.txt|
 
     Details about configuration options are available in [Configuration options](#configuration_options) section.
 
-1. Click on the `Launch` button on lower right corner of the dialog to launch the application.
-A notification is displayed on the top right corner after application is launched successfully and includes the Application ID which can be used to monitor this instance and find its logs.
+1. When you are finished inputting application configuration properties, click on the `save` button on the top right corner of the page to save the configuration.
+
+1. Click on the `launch` button at the top right corner of the page to launch the application.
+A notification will be displayed on the top right corner after application is launched successfully and includes the Application ID which can be used to monitor this instance and find its logs.
    ![Application launch no tification](images/common/app_launch_notification.png)
 
 1. Click on the `Monitor` tab from the top navigation bar.
-   ![Monitor tab](images/common/monitor_link.png)
 
 1. A page listing all running applications is displayed. Search for current application based on name or application id or any other relevant field. Click on the application name or id to navigate to application instance details page.
    ![Apps monitor listing](images/common/apps_monitor_listing.png)
@@ -85,13 +76,13 @@ End user must specify the values for these properties.
 
 
 ### Advanced properties
-There are pre-saved configurations based on the application environment. Recommended settings for [datatorrent sandbox edition](https://www.datatorrent.com/download/datatorrent-rts-sandbox-edition-download/) are in `sandbox-memory-conf.xml` and for a cluster environment in `cluster-memory-conf.xml`.
+There are pre-saved configurations based on the application environment. Recommended settings for [datatorrent sandbox](https://www.datatorrent.com/download/) are in `sandbox-memory-conf.xml` and for a cluster environment in `cluster-memory-conf.xml`.
 
 |Property|Description|Type|Default for<br/> cluster-<br/>memory<br/>- conf.xml|Default for<br/> sandbox-<br/>memory<br/> -conf.xml|
 |---|---|---|---|---|
 |dt.operator.fileOutput.prop.maxLength|Maximum length for output file after which file is rotated|long|Long.MAX_VALUE|Long.MAX_VALUE|
 
-You can override default values for advanced properties by specifying custom values for these properties in the step [specify custom property](#property-editor) step mentioned in [steps](#steps_to_launch) to launch an application.
+You can override default values for advanced properties by specifying custom values for these properties in the [specify custom property](#property-editor) step within [steps to launch application](#steps_to_launch).
 
 ## Steps to customize the application
 
@@ -128,7 +119,8 @@ You can override default values for advanced properties by specifying custom val
     This will generate the application package with `.apa` extension in the `target` directory.
 
 1. Go to DataTorrent UI Management console on web browser. Click on the `Develop` tab from the top navigation bar.
-   ![Develop tab](images/common/develop_link.png)
+
+1. Click on `Application Packages` from the list.
 
 1. Click on `upload package` button and upload the generated `.apa` file.
    ![Upload](images/common/upload.png)

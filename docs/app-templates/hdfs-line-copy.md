@@ -10,55 +10,42 @@ This document has a step-by-step guide to configure, customize, and launch this 
 
 ## <a name="steps_to_launch"></a>Steps to launch application
 
-1. Click on the AppHub tab from the top navigation bar.
+1. Click on the AppFactory tab from the top navigation bar.
    ![AppHub link from top navigation bar](images/common/apphub_link.png)
+   Page listing the applications available on AppFactory is displayed. 
+1. Search for HDFS to see all applications related to HDFS.
+1. Click on import button for `HDFS to HDFS Line Copy App.` Notification is displayed on the top right corner after application package is successfully imported.
 
-1. Page listing the applications available on AppHub is displayed.
-Search for HDFS to see all applications related to HDFS.
-   ![AppHub search for HDFS](images/hdfs-line-copy/apphub-search.png)
-
-   Click on import button for `HDFS to HDFS Line Copy App`
-
-1. Notification is displayed on the top right corner after application package is successfully
-   imported.
    ![App import Notification](images/hdfs-line-copy/import-notification.png)
 
 1. Click on the link in the notification which navigates to the page for this application package.
-   ![App details page](images/hdfs-line-copy/app-details-page.png)
+
+    ![App details page](images/hdfs-line-copy/app-details-page.png)
 
     Detailed information about the application package like version, last modified time, and short description is available on this page. Click on launch button for `HDFS line copy`
-   application.
+    application. In the confirmation modal, click the Configure button.
 
-1. <a name="launch-dialogue"></a>`Launch HDFS-line-copy` dialogue is displayed. One can configure name of this instance of the application after from this dialogue.
-   ![Launch dialogue](images/hdfs-line-copy/launch.png)
+1. The <a name="launch-dialogue"></a>`HDFS-line-copy` application configuration page is displayed. The Required Properties section must be completed before the application can be launched.
 
-1. Select `Use saved configuration` option. This displays list of pre-saved configurations.
-Please select `sandbox-memory-conf.xml` or `cluster-memory-conf.xml` depending on whether
-your environment is the DataTorrent sandbox, or other cluster.
-   ![Select saved configuration](images/hdfs-line-copy/saved-conf.png)
-
-1. Select `Specify custom properties` option. Click on `add default properties` button.
-   ![Specify custom properties](images/hdfs-line-copy/specify-custom.png)
-
-1. This expands a key-value editor pre-populated with mandatory properties for this application. Change values as needed.
-   ![Properties editor](images/hdfs-line-copy/property-editor.png)
+    ![Launch dialogue](images/hdfs-line-copy/launch.png)
 
     <a name="property-editor"></a>For example, suppose we wish to process lines from all the files in `/user/appuser/input` from `source-cluster` and send the output to `output.txt` in `/user/appuser/output` in the `destination-cluster`. Properties should be set as follows:
 
     |name|value|
     |-|-|
-    |dt.operator.fileOutput.prop.filePath|hdfs://destination-cluster/user/appuser/output|
-    |dt.operator.fileOutput.prop.outputFileName|output.txt|
-    |dt.operator.recordReader.prop.files|hdfs://source-cluster/user/appuser/input|
+    |Input Directory Or File Path |hdfs://source-cluster/user/appuser/input|
+    |Output Directory Path |hdfs://destination-cluster/user/appuser/output|
+    |Output File Name |output.txt|
 
     Details about configuration options are available in [Configuration options](#configuration_options) section.
 
-1. Click on `Launch` button on bottom right corner to launch the application.
-Notification is displayed on the top right corner after application is launched successfully and includes the Application ID which can be used to monitor this instance and find its logs.
+1. When you are finished inputting application configuration properties, click on the `save` button on the top right corner of the page to save the configuration.
+
+1. Click on the `launch` button at the top right corner to launch the application.
+A notification will be displayed on the top right corner after the application is launched successfully and includes the Application ID which can be used to monitor this instance and find its logs.
    ![Application launch notification](images/common/app_launch_notification.png)
 
 1. Click on the `Monitor` tab from the top navigation bar.
-   ![Monitor tab](images/common/monitor_link.png)
 
 1. Page with listing of all running applications is displayed. Search for current application based on name or application id or any other relevant field. Click on the application name or id to navigate to application instance details page.
    ![Apps monitor listing](images/common/apps_monitor_listing.png)
@@ -81,7 +68,7 @@ End user must specify the values for these properties (all properties are string
 |<p style="font-size:12px">dt.operator.fileOutput.prop.filePath|HDFS path for the output directory. Generally, this refers to path on the hadoop cluster on which app is running.|/user/appuser/output|
 
 ### Advanced properties
-There are pre-saved configurations based on the application environment. Recommended settings for [datatorrent sandbox edition](https://www.datatorrent.com/download/datatorrent-rts-sandbox-edition-download/) are in `sandbox-memory-conf.xml` and for a cluster environment in `cluster-memory-conf.xml`.
+There are pre-saved configurations based on the application environment. Recommended settings for [datatorrent sandbox](https://www.datatorrent.com/download/datatorrent-rts-sandbox-edition-download/) are in `sandbox-memory-conf.xml` and for a cluster environment in `cluster-memory-conf.xml`.
 
 |Property|Description|Type|Default for<br/> cluster<br/>-memory<br/>-conf.xml|Default for<br/>sandbox<br/>-memory<br/>-conf.xml
 |-|-|-|-|-|
@@ -125,7 +112,8 @@ You can override default values for advanced properties by specifying custom val
     This will generate the application package with the `.apa` extension inside the `target` directory.
 
 1. Go to DataTorrent UI Management console on web browser. Click on the `Develop` tab from the top navigation bar.
-   ![Develop tab](images/common/develop_link.png)
+
+1. Click on `Application Packages` from the list.
 
 1. Click on `upload package` button and upload the generated `.apa` file.
    ![Upload](images/common/upload.png)

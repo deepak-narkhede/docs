@@ -1,70 +1,101 @@
 site_name: DataTorrent Documentation
 google_analytics: ['UA-44586211-2', 'docs.datatorrent.com']
 site_favicon: favicon.ico
-theme: readthedocs
 pages:
 - DataTorrent RTS: index.md
 - Demos:
     - Running Apps: demos.md
 - Sandbox: sandbox.md
+- Cloud Integration:
+    - AWS: aws_emr_manual.md
+    - Azure: azure_deployment.md
 - Development:
     - Creating Applications: create.md
     - "Beginner's Guide": beginner.md
+    - Videos: demo_videos.md
     - Tutorials:
-        - Top N Words:
-            - Introduction: tutorials/topnwords.md
-            - Development Environment: tutorials/topnwords-c1.md
-            - Building in Java: tutorials/topnwords-c2.md
-            - Building with dtAssemble: tutorials/topnwords-c3.md
-            - Monitoring with dtManage: tutorials/topnwords-c4.md
-            - Visualizing with dtDashboard: tutorials/topnwords-c5.md
-            - Advanced Features: tutorials/topnwords-c7.md
-            - Appendix: tutorials/topnwords-c6.md
-        - Sales Dimensions:
-            - Building in Java: tutorials/salesdimensions.md
-            - Building with dtAssemble: tutorials/salesdimensions-c2.md
-            - Visualizing with dtDashboard: tutorials/salesdimensions-c3.md
-            - Monitoring with dtManage: tutorials/salesdimensions-c4.md
+        - Top N Words: tutorials/topnwords.md
+        - Sales Dimensions: tutorials/salesdemo.md
     - Apex Development Setup: apex_development_setup.md
     - Generate New Project in IDE: configure_IDE.md
     - Applications: application_development.md
     - Application Packages: application_packages.md
     - Configuration Packages: configuration_packages.md
-    - Operators: operator_development.md
-    - Library Operators:
+    - Operator Development:
+        - Guide: operator_development.md
+        - Reference: operator_development_ref.md
+    - Operators: 
+        - Operators List: library_operators.md
+        - Drools Operator: operators/drools_operator.md
+        - Python Operator: operators/python_operator.md
+        - PMML Operator: operators/PMML_operator.md
+        - TCP Input Operator: operators/tcpinputoperator.md
+        - Event Hub Input Operator: operators/eventhubinput.md
+        - Event Hub Output Operator: operators/eventhuboutput.md
+        - Abstract HTTP Server Operator: operators/abstracthttpserver.md
+        - Azure Blob Storage Operator: operators/azure_blob.md
+        - Analytics Output Operator: operators/aoooperator.md
+        - Elasticsearch Output Operator: operators/elasticsearch.md
         - Block Reader: operators/block_reader.md
         - Deduper: operators/deduper.md
         - Dimension Computation: operators/dimensions_computation.md
-        - File Output: operators/file_output.md  
+        - File Output: operators/file_output.md
         - File Splitter: operators/file_splitter.md
         - HDHT: operators/hdht.md
         - Kafka Input: operators/kafkaInputOperator.md
         - Snapshot Server: operators/snapshot_server.md
+    - Partitioning: partition.md
     - App Data Framework: app_data_framework.md
     - REST API: dtgateway_api.md
 - App Templates:
+    - Import and Launch App-template: app-templates/0.10.0/common/import-launch.md
+    - Customizing an app-template: app-templates/0.10.0/common/customize.md
+    - Database-to-database-sync: app-templates/0.10.0/database-to-database-sync.md
+    - HDFS-line-copy: app-templates/0.10.0/hdfs-line-copy.md
+    - HDFS-part-file-copy: app-templates/0.10.0/hdfs-part-file-copy.md
+    - HDFS-to-HDFS-filter-transform: app-templates/0.10.0/hdfs-to-hdfs-filter-transform.md
+    - Kafka-to-Cassandra-Filter-Transform: app-templates/0.10.0/kafka-to-cassandra-filter-transform.md
+    - Kafka-to-Database-sync: app-templates/0.10.0/kafka-to-database-sync.md
+    - Kafka-to-HDFS-Filter-Transform: app-templates/0.10.0/kafka-to-hdfs-filter-transform.md
+    - Kafka-to-Kafka-Filter-Transform: app-templates/0.10.0/kafka-to-kafka-filter-transform.md
+    - Kinesis-to-Redshift: app-templates/0.10.0/kinesis-to-redshift.md
+    - Kinesis-to-S3: app-templates/0.10.0/kinesis-to-s3.md
+    - S3-to-HDFS-sync: app-templates/0.10.0/s3-to-hdfs-sync.md
+    - S3-to-HDFS-Filter-Transform: app-templates/0.10.0/s3-to-redshift.md
     - Database dump to HDFS App: app-templates/database-to-hdfs.md
     - Database to Database Sync App: app-templates/database-to-database-sync.md
     - HDFS Sync App: app-templates/hdfs-sync.md
     - HDFS to HDFS Line Copy App: app-templates/hdfs-line-copy.md
     - HDFS to Kafka Sync App: app-templates/hdfs-to-kafka-sync.md
-    - HDFS S3 Sync App: app-templates/hdfs-to-s3-sync.md
+    - HDFS to S3 Sync App:  app-templates/hdfs-to-s3-sync.md
     - Kafka to Database Sync App: app-templates/kafka-to-database-sync.md
     - Kafka to HDFS Filter App: app-templates/kafka-to-hdfs-filter.md
     - Kafka to HDFS Sync App: app-templates/kafka-to-hdfs-sync.md
+    - Kinesis to S3 App: app-templates/kinesis-to-s3.md
     - S3 to HDFS Sync App: app-templates/s3-to-hdfs-sync.md
 - Applications:
-    - App Data Tracker: app_data_tracker.md
-    - dtIngest: dtingest.md
+    - Omni Channel Fraud Prevention Application: omni_channel_fraud_app.md
+    - Account Takeover Prevention Application: Accounttakeover.md
+    - Quick Start Guide - Omni-Channel Fraud Prevention Application: quickstartlaunchfpa.md
+    - Quick Start Guide - Account Takeover Prevention Application: quickstartlaunchato.md
+- Services:
+    - CEP Workbench: cep_workbench.md
+    - OAS Dashboards: oas_dashboards.md
+    - Online Analytics Service (OAS): oas.md
 - Platform:
     - RTS: rts.md
+    - Application Configurations: application_configurations.md
     - dtManage: dtmanage.md
-    - dtAssemble: dtassemble.md
     - dtDashboard: dtdashboard.md
     - dtGateway: dtgateway.md
+    - Services: services.md
+    - JAR Artifacts: jar_artifacts.md
     - Apache Apex: apex.md
     - Apache Apex-Malhar: apex_malhar.md
+    - Application Backplane: appbackplane.md
+    - Store and Replay Feature: storeandreplay.md
 - Deployment and Operations:
+    - Licensing: Licensing.md
     - Installation: installation.md
     - Configuration: configuration.md
     - Security: dtgateway_security.md
@@ -74,3 +105,7 @@ pages:
 - Release Notes: release_notes.md
 - Glossary: glossary.md
 - Resources: additional_docs.md
+
+theme:
+    name: readthedocs
+    custom_dir: 'docs/custom/readthedocs_dt'

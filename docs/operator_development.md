@@ -53,9 +53,7 @@ An Apache Apex application runs as a YARN application. Hence, each of
 the operators that the application DAG contains, runs in one of the
 containers provisioned by YARN. Further, Apache Apex exposes APIs to
 allow the user to request bundling multiple operators in a single node,
-a single container or even a single thread. We shall look at these calls
-in the reference sections [cite reference sections]. For now, consider
-an operator as some piece of code that runs on some machine of a YARN
+a single container or even a single thread. An operator is thus a piece of code that runs in a machine of a YARN
 cluster.
 
 Types of Operators
@@ -65,7 +63,7 @@ An operator works on one tuple at a time. These tuples may be supplied
 by other operators in the application or by external sources,
 such as a database or a message bus. Similarly, after the tuples are
 processed, these may be passed on to other operators, or stored into an external system. 
-Therea are 3 type of operators based on function: 
+There are three types of operators based on function: 
 
 1.  **Input Adapter** - This is one of the starting points in
     the application DAG and is responsible for getting tuples from an
@@ -94,7 +92,7 @@ one another. For any operator opr (see image below), there are two types of oper
 2.  **Downstream operators** - These are the operators to which there is a
     directed path from opr in the application DAG.
 
-Note that there are no cycles formed in the application DAG.
+**Note:** There are no cycles formed in the application DAG.
 
 ![](images/operator/image00.png)
 
@@ -285,9 +283,7 @@ We have the following configuration parameters:
 Code
 ----
 
-The source code for the tutorial can be found here:
-
-[https://github.com/DataTorrent/examples/tree/master/tutorials/operatorTutorial](https://www.google.com/url?q=https://github.com/DataTorrent/examples/tree/master/tutorials/operatorTutorial&sa=D&usg=AFQjCNHAAgSpNprHJVvy9GSjdlD1uwU7jw)
+The source code for the tutorial can be found [here](https://github.com/DataTorrent/examples/tree/master/tutorials).
 
 
 Operator Reference <a name="operator_reference"></a>
@@ -447,3 +443,21 @@ ports.
 1. Invoke constructor; non-transients initialized.
 2. Copy state from checkpoint -- initialized values from step 1 are
 replaced.
+
+Advanced Features <a name="advanced_features"></a>
+====================================
+
+Control Tuple Support
+---------------------------
+Operators now also have the capability to emit control tuples. These control tuples are different from the control tuples used by the engine like BEGIN_WINDOW and END_WINDOW tuples. Operators can create and emit their own control tuples which can be used to communicate to the down stream operators regarding some event. Examples of such events can be BEGIN_FILE, or END_FILE.
+More details can be found at [Control Tuples](../control_tuples)
+
+
+Operator Development Reference
+====================================
+
+For more details about operator development see [Operator Developmnet Reference](operator_development_ref.md)
+
+
+
+

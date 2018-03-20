@@ -1,4 +1,8 @@
 site/
+node_modules/
 .idea
 *.iml
 .DS_Store
+
+# for dev when testing with versions
+docs/versions.json

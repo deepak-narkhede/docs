@@ -18,7 +18,7 @@ for detailed instructions on:
 
 # Writing Your Own App Package
 
-Please refer to the [Beginner's Guide](beginner.md) on the basics on how to write an Apache Apex application.  In your AppPackage project, you can add custom operators (refer to [Operator Development Guide](https://www.datatorrent.com/docs/guides/OperatorDeveloperGuide.html)), project dependencies, default and required configuration properties, pre-set configurations and other metadata.
+Please refer to the [Beginner's Guide](beginner.md) on the basics on how to write an Apache Apex application.  In your AppPackage project, you can add custom operators (refer to [Operator Development](operator_development.md) ), project dependencies, default and required configuration properties, pre-set configurations and other metadata.
 
 ## Adding (and removing) project dependencies
 
@@ -365,7 +365,7 @@ property:
         dt.attr.APPLICATION_NAME
 
 There are also other properties that can be set.  For details on
-properties, refer to the [Operation and Installation Guide](https://www.datatorrent.com/docs/guides/OperationandInstallationGuide.html).
+properties, refer to the [Configuration](configuration.md).
 
 In this example, property some_name_1 is a required property which
 must be set at launch time, or it must be set by a pre-set configuration
@@ -377,7 +377,7 @@ launch time.
 
 
 At build time, you can add pre-set configurations to the App Package by
-adding configuration XML files under ```src/site/conf/<conf>.xml```in your
+adding configuration XML files under ```src/site/conf/<conf>.xml``` in your
 project.  You can then specify which configuration to use at launch
 time.  The configuration XML is of the same format of the properties.xml
 file.
@@ -588,7 +588,7 @@ Here is an example of launching an application through curl:
  http://localhost:9090/ws/v2/appPackages/dtadmin/mydtapp/1.0-SNAPSHOT/applications/MyFirstApplication/launch
 ```
 
-Please refer to the [Gateway API reference](https://www.google.com/url?q=https://www.datatorrent.com/docs/guides/DTGatewayAPISpecification.html&sa=D&usg=AFQjCNEWfN7-e7fd6MoWZjmJUE3GW7UwdQ) for the complete specification of the REST API.
+Please refer to the [Gateway API](dtgateway_api.md) for the complete specification of the REST API.
 
 # Examining and Launching Application Packages Through Apex CLI
 

@@ -1,0 +1,18 @@
+.wy-menu-vertical li ul.subnav ul.subnav {
+  padding-left: 0;
+}
+
+/* selected - all */
+.wy-menu-vertical li ul.subnav ul.subnav li a {
+  padding-left: 2.42em;
+}
+
+/* selected - second level */
+.wy-menu-vertical .subnav li.current > ul li.toctree-l4 a,
+.wy-menu-vertical .subnav li.current > ul li a.toctree-l5 {
+  padding-left: 3.42em !important;
+}
+
+.wy-menu-vertical .subnav li.current span.caption-text {
+  background-color: #eee;
+}

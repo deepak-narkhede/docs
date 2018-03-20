@@ -1,33 +1,91 @@
-Glossary of Terms
-================================================================================
+# Glossary
 
-Apache Apex
------------
-
-- **Apache Hadoop** -  [Apache Hadoop](http://hadoop.apache.org/) is a programming framework that supports the processing of large data sets in a distributed computing environment.
-- **Application** - unified batch and real-time stream processing application running on Apache Apex platform.
-- **Container** - A physical resource with CPU and memory constraints allocated by YARN’s Resource Manager.
-- **Current Window Id** - Sequentially increasing identifier for a specific computation time period within Apache Apex platform.
-- **DAG** - Directed Acyclic Graph, formed by a collection of vertices and directed edges without cycles.  Sometimes interchangeably used to describe Apache Apex applications, specifically referring to their *Logical* / *Physical* plans, composed of operators connected by streams.
-- **Data Tuples Emitted** - Number of data objects emitted by the operators with an output port.
-- **Data Tuples Processed** - Number of data objects processed by the operators in an Apache Apex application.
-- **Logical Plan** - Logical representation of an Apache Apex application, where the computational nodes are called *Operators* and the data-flow edges are called *Streams*.
-- **Operator** - An entity that holds a computational logic to process the data tuples. It is part of a real-time stream processing application. The Operator computational logic gets executed inside a YARN Container.
-- **Physical Operator** - Physical representation of the operator, which contains information such as the name of container and the Hadoop node where operator instance is running.
-- **Physical Plan** - Physical representation of the Logical Plan of the application and is a blueprint of how the application will run inside YARN containers deployed across nodes in a Hadoop cluster.
-- **Port** - Each operator can have ports on which it can receive input data tuples and also output processed data tuples.
-- **Recovery Window Id** - Identifier for the last computational window at which the operator state was check-pointed into HFDS.
-- **Resource Manager** - YARN component that allocates and arbitrates the resources such as CPU, Memory and Network.
-- **STRAM** - Streaming Application Manager is the first process that is activated upon application launch and orchestrates the deployment, management, and monitoring of the Apache Apex applications throughout their lifecycle.
-- **Stream** - A stream consists of data tuples that flow from one port of an operator to another.
-- **YARN** - [Apache Hadoop YARN](http://hadoop.apache.org/docs/current2/hadoop-yarn/hadoop-yarn-site/YARN.html) (Yet Another Resource Negotiator) is a cluster resource management technology, introduced with Hadoop 2.0.
-
-DataTorrent RTS
----------------
-
-- **dtAssemble** - graphical application assembly tool used to develop applications.
-- **dtDashboard** - graphical visualization tool to view and query system and application data.
-- **dtGateway** - HTTP server used by dtManage to interact with STRAM, YARN Resource Manager, and HDFS
-- **dtManage** - the web based interface to install, configure, manage & monitor Apache Apex applications running in a Hadoop Cluster
-
-
+| **Terms** | **Description** |
+| --- | --- |
+|   |   |
+| **Affinity** | The relationship that occur due to the communication between components of Apex applications (Containers) even if they co-exist or not within a node in a cluster.   |
+| **Apache** | Prefix to Apache projects. Refers to Apache Software Foundation (ASF). |
+| **Apache Apex** | [Apache Apex](file:///tmp/d20180216-4-9iw9ea/apex.apache.org)is a fast, big data engine that can run both streaming as well as batch jobs. Apex processes big data in-motion such that is highly scalable, highly performant, fault tolerant, stateful, secure, distributed, and easily operable. |
+| **Apache Apex Core** | Apache Apex Core is a unified platform for big data streaming and batch processing. Use cases include ingestion, ETL, real-time analytics, alerts and real-time actions. It is usually referred as **Apex**, **Apex-Core**, or **Apex Platform**. |
+| **Apache Apex Malhar** | Apache Apex Malhar is an open source operator and codec library that can be used with the Apex platform to build fast big data applications. The operators in Malhar implement Apex API. |
+| **Apache Hadoop** | [Apache Hadoop ](file:///tmp/d20180216-4-9iw9ea/hadoop.apache.org) is a big data framework that supports processing of large data sets in a distributed environment. It consists of two logical grids, namely compute grid (managed by YARN), and storage grid (HDFS). |
+| **Apache Kafka** | Commonly used message bus in big data ecosystem. |
+| **Apoxi** | Apoxi™ framework binds together application building blocks (data services) to create optimized, pre-built apps and integrates independent apps to allow them to operate as one. |
+| **App Master / Application Master** | App Master/ [Application Master](https://hadoop.apache.org/docs/stable/hadoop-yarn/hadoop-yarn-site/WritingYarnApplications.html#Writing_an_ApplicationMaster_AM)  is the monitoring process for applications responsible for negotiating resources with the Resource Manager and interacting with Node Managers to get the allocated containers started. Application Master runs within a container and manages the resources of the application. |
+| **AppFactory** | [AppFactory](https://www.datatorrent.com/apphub/) is a collection of pre-built micro data services and applications. In the AppFactory there are many applications for various use cases to help jumpstart the development effort. The aim is to provide 80% to 90% of common parts and thereby reduce TTV and TCO. |
+| **Application**   | In DataTorrent, Application is a collection of micro data services that are interconnected using Apoxi to achieve a business outcome. |
+| **Application Configuration** | Application Configurations are created for applications using properties that override and supplement the ones that are already set in the original Application. |
+| **Application Metrics** | Data for operational insights into the application. This data conveys how the application is performing and provides valuable insights for the business analyst and data engineers. |
+| **Application Package** | An application package is a collection or bundle of related applications. It contains all the necessary files to launch and operate the bundled applications. |
+| **Application Templates** | These are pre-built templates that are available at AppFactory, which can speed up the time to production. |
+| **Application Window Count** | Number of streaming windows taken by an operator to complete one unit of work. |
+| **CEP** | Complex Event Processing. An industry term to represent processing events from multiple sources to identify patterns and get to a business outcome. |
+| **Cloud Agnosticism** | Ability to run the same application or micro-data service on different cloud with minimal to no changes. This also refers to DataTorrent&#39;s value prop to guarantee cloud agnosticism and help enterprises avoid cloud locking. |
+| **Cloud computing** | Cloud computing is an information technology (IT) paradigm that enables ubiquitous access to shared pools of configurable system resources and higher-level services that can be rapidly provisioned with minimal management effort, often over the Internet. Cloud computing relies on sharing of resources to achieve coherence and economy of scale, similar to a utility.A public cloud collectively refers to Amazon AWS, Microsoft Azure, and Google Cloud. A private cloud is cloud infrastructure operated solely for a single organization, whether managed internally or by a third-party, and hosted either internally or externally. |
+| **Container** | Represents a resource (memory) on a single node in a cluster. It is scheduled by the Resource Manager and supervised by the Node Manager |
+| **Control Tuple** | Smallest unit of control data that moves in the Apex application |
+| **Critical Path** | The path in a DAG that has maximum latency. |
+| **DAG (Directed Acyclic Graph)** | A representation of unidirectional data flow. Within an Apex application a DAG represents unidirectional functional code (operators) connected through message bus (streams). |
+| **Data Tuple** | Smallest unit of application data that moves in the application processes between operators. A data tuple is atomic in nature. |
+| **DataTorrent Platform** | See DataTorrent RTS |
+| **DataTorrent RTS** | DataTorrent&#39;s Real-time Streaming (RTS) platform provides all the functionality a business needs to develop and deliver best-in-class, fast data applications by integrating best-of-breed open source technology innovation.  RTS tightly binds scalable, fault tolerant stream processing with Apache Apex, online analytical processing with Druid, a rules engine for complex event processing based on Drools, and support for running real-time machine scoring based on Python, SparkML, and PMML.   The RTS platform supports popular choices for long-term data persistence including HDFS, S3, and others, as well as supporting the latest Hadoop distributions from Cloudera, Hortonworks, and MAPR running on-premises or in the cloud.RTS is used for both batch and streaming applications. |
+| **Dev Grid (Cluster)** | A grid is used to develop big data application and test it. This grid is characterized by looser SLA &amp; frequent launches. |
+| **Distributed Architecture/Infrastructure** | An architecture that leverages multiple physical servers. This is a basic concept behind big data. |
+| **Docker** | Software that gives containers, supported by Docker Inc. It provides a layer of virtualization over Unix &amp; Windows. [Container](https://www.docker.com/what-container). |
+| **Drools** | Drools is a rules engine which is used to enable customers to set rules on data to achieve business outcomes. |
+| **DT Gateway** | This is the main component of DataTorrent RTS which is accessible through [dtManage](http://docs.datatorrent.com/dtmanage/). It is a Java-based multi-threaded web server that allows you to easily access information and perform various operations on DataTorrent RTS. dtGateway constantly communicates with all the running RTS App Masters (StrAM), as well as the Node Managers and the Resource Manager in the Hadoop cluster, to gather all the information and to perform all the operations. It can run on any node in a  Hadoop cluster or any other node that can access the Hadoop nodes, and is installed as a system service automatically by the RTS installer. |
+| **DT Malhar** | A private copy of Apache Apex Malhar code on which DataTorrent develop features. |
+| **dtConsole** | Collection of UI pages (dtManage, dtDashboard) that is served from DT Gateway. |
+| **dtDashboard** | [dtDashboard](http://docs.datatorrent.com/dtdashboard/) is the visualization component of DataTorrent RTS and is seamlessly integrated with the metrics framework. |
+| **dtManage** | The web based interface to install/upload/import, configure, manage, and monitor Apex applications running in a Hadoop cluster. |
+| **Engines** | Engines are the frameworks that are used to deliver micro data services such as Apex, Druid, and Drools. |
+| **Execution Plan** | Annotation or elaboration of physical plan by adding data where the operators are exactly running. This data includes the nodes, YARN containers etc. |
+| **Fast Data** | Fast data is the application of big data analytics to smaller data sets in near-real or real-time to solve a problem or create business value. The goal of fast data is to quickly gather and mine structured and unstructured data for quick actions This is a design pattern where data movement is rapid. Usually refers to a setup where data is processed in memory and is immediately sent to the next processor. This could be a streaming or a batch job. |
+| **Garbage Collection** | As part of memory management, Java periodically collects unused memory objects for reuse. This process is called garbage collection. |
+| **Garbage Collection Logging** | Java writes to logs when garbage collection triggers. Analysis of these logs is important from a performance perspective. |
+| **Hadoop Ecosystem** | Hadoop ecosystem consists of many technologies that run on Hadoop. Most of the current technologies are based on MapReduce. Notable names are MapReduce, Pig, Hive, Oozie. |
+| **HDFS** | The Hadoop Distributed File System (HDFS) is the primary storage system used by Hadoop applications.It provides high-performance access to data across Hadoop clusters. Its a key tool for managing pools of big data and supporting big data analytics applications. |
+| **Heartbeat** | Containers send periodic signals to application master. Heartbeats are used by application master to know that containers are alive and running properly. Containers can also send some other statistics to application master using the heartbeats. |
+| **Hybrid Grid** | An application or a business process that runs on cloud as well as on-premise. Most common situation is when dev &amp; QA are run on cloud and production is run on-prem. |
+| **Input Operator** | Usually an Input operator is the starting point of the DAG or the pipeline. Tuples flow from input to output. It is responsible for getting data from an external system. |
+| **Input Port** | Port through which operator receives data from the output port of the upstream operator.   |
+| **JAR Artifact** | Artifacts can be used to provide libraries, rules, schemas, and custom code to applications via Application Configurations. Artifact JARs follow Apache Maven standards, which require groupId, artifactId, and version to be specified and can be uploaded manually and synchronized automatically from a Maven artifacts directory accessible by the Gateway. |
+| **Kerberos** | A network authentication protocol pioneered by MIT. This is the most common authentication protocol in big data and is supported by DT RTS. |
+| **Kubernetes** | An open source container orchestration software backed by Google. In 2017 Amazon and Azure picked up kubernetes enabling it to be some day de-facto orchestration software for cloud. |
+| **Log Aggregation** | The process of aggregating distributed logs in one place. In a distributed application, the processes write logs to local hard disk. Thus logs of an application are distributed and hence it is very time consuming to debug a distributed application. Aggregating logs in one place saves time to debug. |
+| **Logical Plan**   | Logical representation of an Apex application, where the computational nodes are called _Operators_ and the data-flow edges are called _Streams_. |
+| **Loose Coupling** | Ability to loosely couple parts (operators or micro data services) to get them to serve a particular function as a whole. In this architecture the interaction is via a message bus. Loose coupling helps reduce time to value and maintenance cost by enabling parts of an application to be upgraded/modified without touching the rest. |
+| **Message Bus** | A logical infrastructure component that enables a publisher to publish data. Consumers, also called subscribers, subscribe to topics or queues. Message bus is a core concept behind loosely creating application(s) from loosely coupled micro data services. Bufferserver is an example of a message bus within an Apex application. |
+| **Metrics** | Operational insights need metadata of the application or cluster to be available. These collection of numbers are expressed as **metrics**. Metrics are of two types, namely application metrics that give operational insight into application data and system metrics that gives operational insights into the system data. For example,  application data is the number of phone calls successfully processed in a one hour period. System data is the system memory, tuples per second etc. |
+| **Micro Data Service** | A collection of operators that provide a specific function. Usually this function by itself is not sufficient to get a complete business outcome. |
+| **Multi Grid Application** | An application that is created by connecting micro data services running on different grids. |
+| **Node Manager** | Node manager handles individual Hadoop nodes in the compute grid. It oversees life-cycle management of the container resources in a node and monitors resource usage of individual containers on a node. It updates status check with the Resource Manager. |
+| **Omni-Channel Payment Fraud  Prevention Application** | [Omni-Channel Payment Fraud Prevention](https://www.datatorrent.com/appfactory/#/financial-services/Payment-Fraud-Prevention) Application is a pre-built application which can be used to identify fraud in financial transactions. This application is designed to ingest, transform, analyze, act, and visualize data as soon as it is generated; thereby, preventing fraud transactions in real-time. This fraud prevention [solution](https://www.datatorrent.com/fraud-prevention/) processes each record through a series of business rules and triggers one or more actions. |
+| **Online Analytics Service (OAS)** | Engine for OLAP. Druid APIs are used in DT application which helps to deliver fast data analytics to our customers to enable them to achieve business outcomes. |
+| **On-Prem** | Short form for **On Premise** which is within a customer&#39;s premise as opposed to in the cloud. |
+| **Operators** | Operators are basic building blocks of an Apex application. An application may consist of one or more operators each of which define some logical operation to be done on the tuples arriving at the operator. These operators are connected together using streams. |
+| **Output Operator** | Output operators are endpoints in an Apex application. It writes the data out to external system. |
+| **Output Port** | The port through which an operator emits tuples to a downstream operator&#39;s input port via a stream. |
+| **Partitioning** | Partitioning is a mechanism to eliminate bottlenecks in your application and increase throughput. If an operator is performing a resource intensive operation, it risks becoming a bottleneck as the rate of incoming tuples increases. One way to cope is to replicate the operator as many times as necessary so that the load is evenly distributed across the replicas, thus eliminating the bottleneck. This technique assumes that your cluster has adequate resources (CPU, memory and network bandwidth) to support all the replicas. |
+| **Physical Operator**   | Physical instance of an operator, which contains information such as the name of the container and the Hadoop node where operator instance is running. |
+| **Physical Plan** | Logical plan is transformed into a physical plan by applying partitioning attributes to the logical plan. This is a precursor to the creation of an execution plan. |
+| **PMML** | [PMML](http://dmg.org/pmml/v4-3/GeneralStructure.html) stands for &quot;Predictive Model Markup Language&quot;. PMML allows for different statistical and data mining tools to speak the same language. The structure of the models is described by an XML Schema. One or more mining models can be contained in a PMML document. |
+| **PMML Scoring Operator** | DataTorrent RTS provides a scoring operator which takes XML file as input. This file contains the PMML model trained via any third-party tool and exported to PMML. The scoring operator currently supports Naive Bayes classification, SVM classification and K-Means clustering algorithms. |
+| **Port**   | Each operator can have port/s on which it can receive or emit data to and from other operators. Input operator does not have input port and Output operator does not have output port. |
+| **Production Grid (cluster)** | A grid used to run production applications or micro data services. This application(s) constitute the product from which business outcomes are achieved. Production grids have very tight SLA. Direct launches to production grid are very infrequent. |
+| **QA Grid (cluster)** | A grid used to certify applications or micro data services for production. This grid is characterized by a looser SLA. Launches are less frequent as they mimic launch to production. QA launch is usually done as a precursor to production launch. |
+| **Recovery Window ID**   | Identifier of the last computational window at which the operator state was checkpointed into HDFS. |
+| **Resource Manager** | Main component of YARN that allocates and arbitrates the resources such as CPU, Memory and Network. Manages all the distributed resources in the cluster. Resource manager works with per-node Node Managers (NMs) and per-application Application Masters (AMs) |
+| **Schema** | A method used to give structure to data. Big data applications almost always collect unstructured data. Assigning schemas are among the first tasks needed in the process of converting unstructured data to structured data. |
+| **Schema Repository** | A repository to manage and maintain all schemas being used by the Enterprise. A schema repository may be shared by different applications. |
+| **Security** | Ability to secure data. There are two main parts of security, namely (a) authenticating users, (b) specifying and enforcing authorization of access. |
+| **StrAM** | Streaming Application Manager is the first process that is activated upon application launch. It orchestrates the deployment, management, and monitoring of the Apex applications throughout their lifecycle. |
+| **Stream** |  A stream consists of data and control tuples that flow from an output port of an operator to an input port of another. It is a connector (edge) abstraction and a fundamental building block of the platform. |
+| **Stream Modes/Stream Locality** | Streams have four modes, namely in-line, in-node, in-rack, and other. They are defined as follows: **THREAD\_LOCAL**: In the same thread, uses thread stack (intra-thread). This mode can only be used for a downstream operator which has only one input port connected. This is also called in-line.  **CONTAINER\_LOCAL**: In the same container (intra-process). This is also called in-container. **NODE\_LOCAL**: In the same Hadoop node (inter processes, skips NIC). This is also called in-node.  **RACK\_LOCAL**: On nodes in the same rack. This is also called in-rack. **Unspecified**: This could be anywhere within the cluster |
+| **Streaming Application** | An application that is run on a streaming engine. |
+| **Streaming Container / Container** | A streaming container is a process that runs a part of the application business logic. It is a container deployed on a node in the grid. The part of business logic is implemented via an operator. Multiple operators connected together make up the complete application and hence there are multiple streaming containers in an application.  |
+| **System Metrics** | Data for operational insights into the system performance of the application. This data conveys how the resources used by the application are performing. They provide valuable insights to DevOps and data engineers. |
+| **TCO** | Total cost of ownership of any project incurred by the customer. In DataTorrent&#39;s case it relates to total cost of ownership of a fast big data analytics application. This cost includes cost of development, testing, launching, and equally (or more importantly) cost of ongoing operations. Cost includes salary, hardware, etc. aka all costs are to be accounted for. |
+| **TTV** | Time to value of any project. This is the time it takes for a customer to successfully go from inception to getting value out of a project. |
+| **YARN** |   [Apache Hadoop YARN ](http://hadoop.apache.org/docs/current2/hadoop-yarn/hadoop-yarn-site/YARN.html)(Yet Another Resource Negotiator) is a cluster resource management technology, introduced with Hadoop 2.0. |
+| **Window ID**   | The sequentially increasing identifier of a specific computation period within an Apex engine. |

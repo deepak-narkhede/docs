@@ -1,0 +1,529 @@
+#!/usr/bin/env node
+
+'use strict';
+
+var fs = require('fs');
+var execSync = require('child_process').execSync;
+var _ = require('lodash');
+var semverCompare = require('semver-compare');
+var yargs = require('yargs');
+
+var argv = yargs
+  .usage('Usage: $0 <command> [options]')
+  .example('$0 build --git-tag=v3.10.0 --docs-version=3.10.0', 'Builds the documents for version 3.10.0 using git tag v3.10.0.')
+  .example('$0 build --git-tag 7c6200265787f548eb2ba4db392833791b518310 --docs-version 3.8.1', 'Builds the mkdocs project using the tag/hash and docs-version.')
+  .example('$0 delete --docs-version 3.9.2', 'Removes the specified version.  Will throw an error if other versions link to the specified version.')
+  .example('$0 delete --docs-version 3.9.2 --delete-links', 'Removes the specified version.  Also removes all the verions linked to the specified version.')
+  .example('$0 link --docs-version 3.9.0 --target-version 3.9.2', 'Creates symbolic link in the "v" directory 3.9.0 -> 3.9.2 and adds the 3.9.0 version to the versions.json file.')
+  .command('build', 'Builds a documentation version using the specified git-tag and makes contents available for testing in site folder.')
+  .command('delete', 'Removes a version.  Note: Delete does not handle linked versions correctly.')
+  .command('link', 'Links one version to another by creating a symbolic link in the "v" directory.  Also adds version (docs-version) to the versions.json file.')
+  .command('deploy', 'Deploy contents of build directory to the deploy branch and push the changes to Github.')
+  .demandCommand(1)
+  .option('git-tag', {
+    describe: 'The git tag, hash, or branch to check out and use as the starting point for the docs build.',
+    type: 'string'
+  })
+  .option('docs-version', {
+    describe: 'The version to tag the build as.',
+    type: 'string',
+    demandOption: true
+  })
+  .option('target-version', {
+    describe: 'The version which the symbolic link version is pointed to.  Typically, the target-version contains the actual documentation files.',
+    default: ''
+  })
+  .option('released', {
+    describe: 'Specify if this version has been GA released.  If set to true, the version is used in determining the latest version.  Should never set a Beta or RC version to true.',
+    type: 'boolean',
+    default: true
+  })
+  .option('delete-links', {
+    describe: 'Set to true to force the delete command to also remove all versions linked to specified version.',
+    type: 'boolean',
+    default: false
+  })
+  .option('build-skip-deployed-versions', {
+    describe: 'Builds specified version without starting from deploy branch contents as base.  Contents of the site folder are preserved and used as the base for the build.',
+    type: 'boolean',
+    default: false
+  })
+  .option('deploy-branch', {
+    describe: 'Git branch to use for content deployments.  Github has a set standard to use gh-pages branch for static conent hosting.',
+    type: 'string',
+    default: 'gh-pages'
+  })
+  .option('deploy-remote', {
+    describe: 'Git remote reference to when pushing/pulling branches to/from Github.',
+    type: 'string',
+    default: 'origin'
+  })
+  .count('v')
+  .alias('v', 'verbose')
+  .help('h')
+  .alias('h', 'help')
+  .wrap(yargs.terminalWidth())
+  .argv;
+
+var buildDir = './site';
+var customDir = buildDir + '/.custom';
+var versionDir = buildDir + '/v/' + argv.docsVersion;
+var latestVersion;
+
+function log() {
+  if (argv.v && arguments[0]) {
+    arguments[0] = '>>> ' + arguments[0];
+    console.log.apply(console, arguments);
+  }
+}
+
+/*
+ * Create build directory where builds are copied to
+ */
+function initBuildDir() {
+  var cmd = 'mkdir -p ' + buildDir;
+  log('initializing build directory:', cmd);
+  execSync(cmd);
+}
+
+/*
+ * Copy custom files to build directory so we can use to inject into tag/branch/hash
+ * where files in this custom directory may not exist
+ */
+function copyCustomDirToBuildDir() {
+  var cmd = 'rm -rf ' + customDir + ' && cp -rp docs/custom ' + customDir;
+  log('copying custom directory:', cmd);
+  execSync(cmd);
+}
+
+/*
+ * Run git checkout of branch used for deploys
+ */
+function checkoutDeployBranch() {
+  var cmd = 'git checkout ' + argv.deployBranch;
+  log('checking out deploy branch:', cmd);
+  execSync(cmd);
+}
+
+/*
+ * Copy existing contents from deploy branch to build directory
+ */
+function copyDeployBranchToBuildDir() {
+  // Clean up the contents of build directory, but save the .custom folder (hence the /* pattern )
+  // and then copy the contents of the deploy branch into build directory
+  var cmd = 'rm -rf ' + buildDir + '/*';
+  log('removing all contents from build directory:', cmd);
+  execSync(cmd);
+
+  checkoutDeployBranch();
+
+  // copy files to build directory
+  cmd = 'rsync -av --exclude=".*" --exclude=".*/" --exclude="node_modules/" --exclude="site/" . ' + buildDir;
+  log('copying contents to build dir:', cmd);
+  execSync(cmd);
+
+  checkoutPrevBranch();
+
+  // create versions directory "v"
+  cmd = 'mkdir -p ' + buildDir + '/v';
+  log('create versions directory:', cmd);
+  execSync(cmd);
+}
+
+/*
+ * Checkout hash or tag to be built
+ */
+function checkoutGitTag() {
+
+  if (!argv.gitTag || argv.gitTag.length < 1) {
+    throw new Error('Git tag was not provided.  See help for more details.'); 
+  }
+
+  var cmd = 'git checkout ' + argv.gitTag;
+  log('run git checkout:', cmd);
+  execSync(cmd);
+}
+
+/*
+ * Copy custom directory from build directory to the branch we are building
+ */
+function injectCustomDirectory() {
+  var cmd = 'rm -rf docs/custom && cp -rp ' + customDir + ' docs/custom';
+  log('injecting custom directory:', cmd);
+  execSync(cmd);
+}
+
+/*
+ * Inject custom theme into the mkdocs.yml file in the branch we are building
+ */
+function injectCustomTheme() {
+  // set file name
+  var file = 'mkdocs.yml';
+  log('modifying mkdocs settings file:', file);
+
+  // read current mkdocs.yml
+  var mkdocsContent = fs.readFileSync(file, 'utf-8');
+
+  // adding custom theme 'readthedocs_dt'
+  mkdocsContent += '\ntheme:\n    name: readthedocs\n    custom_dir: \'docs/custom/readthedocs_dt\'';
+
+  fs.writeFileSync(file, mkdocsContent);
+}
+
+/*
+ * Run the mkdocs build command, make sure we build the new contents into the version directory
+ */
+function runMkdocsBuildCommand() {
+  var cmd = 'rm -rf ' + versionDir;
+  log('removing version directory before running build in case it is a symbolic link:', cmd);
+  execSync(cmd);
+
+  cmd = 'mkdocs build -c -d ' + versionDir;
+  log('Executing mkdocs build:', cmd);
+  execSync(cmd);
+}
+
+/*
+ * Update versions.json in build directory
+ * mode can be 'add' or 'delete'
+ * If mode is 'add', then we are adding a version to the file.
+ * If mode is 'delete', then we are remove a version from the file.
+ * We also sort the file to be descending order using the version property.
+ */
+function updateVersionsJson(mode, version) {
+  version = version || argv.docsVersion;
+
+  var file = buildDir + '/versions.json';
+  log('Updating version file:', file);
+
+
+  var content;
+
+  if (fs.existsSync(file)) {
+    // file exists, read it
+    content = fs.readFileSync(file, 'utf-8');
+  } else {
+    // file does not exist, set to empty array
+    content = '[]';
+  }
+
+  var json = JSON.parse(content);
+  var idx = _.findIndex(json, function(row) {
+    return (row.version === version);
+  });
+  log('idx is', idx);
+  switch(mode) {
+    case 'add':
+      if (idx === -1) {
+        // version not in array, and we want to add it
+        var row = {
+          aliases: [],
+          version: version,
+          title: version,
+          gitTag: argv.gitTag,
+          released: argv.released
+        };
+        log('adding version row:', row);
+        json.push(row);
+      } else {
+        // version already in array, set property
+        json[idx].gitTag = argv.gitTag;
+        json[idx].released = argv.released;
+        delete json[idx].link;
+        delete json[idx].targetVersion;
+
+        // update linked versions to have this gitTag if rebuilding existing version
+        _.each(json, function(row) {
+          if (row.targetVersion === json[idx].version) {
+            row.gitTag = json[idx].gitTag;
+          }
+        });
+      }
+      break;
+    case 'link':
+      var targetIdx = _.findIndex(json, function(row) {
+        return (row.version === argv.targetVersion);
+      });
+      if (targetIdx === -1) {
+        // cannot find a target version to link to
+        // throw exception
+        throw new Error('Cannot find target-version in versions.json file.');
+      }
+
+      if (idx === -1) {
+        // version not in array, and we want to add it
+        var row = {
+          aliases: [],
+          version: version,
+          title: version,
+          gitTag: json[targetIdx].gitTag,
+          targetVersion: json[targetIdx].version,
+          released: argv.released,
+          link: true
+        };
+        log('adding version row:', row);
+        json.push(row);
+      } else {
+        // version already in array, set property
+        json[idx].gitTag = json[targetIdx].gitTag;
+        json[idx].targetVersion = json[targetIdx].version;
+        json[idx].released = argv.released;
+        json[idx].link = true;
+      }
+      break;
+    case 'delete':
+      if (idx > -1) {
+        // version is in array and we want to remove it
+        log('removing row', idx);
+        json.splice(idx, 1);
+      }
+      break;
+  }
+
+  // sort list for descending order
+  json.sort(function(rowA, rowB) {
+    return -semverCompare(rowA.version, rowB.version);
+  });
+
+  // save latest version for later use
+  _.each(json, function(row) {
+    if (!latestVersion && row.released) {
+      latestVersion = row.version;
+      row.latest = true;
+    } else {
+      row.latest = false;
+    }
+  });
+  log('latestVersion is ' + latestVersion);
+
+  log('saving versions json to ' + file);
+  fs.writeFileSync(file, JSON.stringify(json));
+}
+
+/*
+ * Copy latest version content to the root directory of build directory
+ */
+function copyLatestVersionToBuildRoot() {
+  if (latestVersion) {
+    var cmd = 'cp -r ' + buildDir + '/v/' + latestVersion + '/* ' + buildDir;
+    log('copying latest version to root:', cmd);
+    execSync(cmd);
+  }
+}
+
+/*
+ * Copy temp custom directory to root of build directory, ensuring the build always has the latest custom files
+ */
+function moveCustomDirectoryToBuildRoot() {
+  var cmd = 'rm -rf ' + buildDir + '/custom && mv ' + buildDir + '/.custom ' + buildDir + '/custom';
+  log('moving custom files to build root:', cmd);
+  execSync(cmd);  
+}
+
+/*
+ * Copy contents from build directory to deploy branch
+ */
+function deployBuildDir() {
+
+  checkoutDeployBranch();
+
+  // remove all files checked out from deploy branch
+  var cmd = 'ls | grep -v ^node_modules$ | grep -v ^site$ | xargs rm -rf';
+  log('removing contents of current deploy branch:', cmd);
+  execSync(cmd);
+
+  // copy files from build directory to branch
+  cmd = 'cp -R ' + buildDir + '/* .';
+  log('adding files from build directory:', cmd);
+  execSync(cmd);
+
+  // add and commit contents to deploy branch
+  cmd = 'git add -A && git commit -m "deploying latest docs for v' + argv.docsVersion + '"';
+  log('run git commit:', cmd);
+  execSync(cmd);
+
+  // push changes to remote Github
+  cmd = 'git push ' + argv.deployRemote + ' ' + argv.deployBranch;
+  log('pushing deploy branch to Github:', cmd);
+  execSync(cmd);
+
+  checkoutPrevBranch();
+}
+
+/*
+ * Clean changed and untracked files in current branch
+ */
+function cleanGitBranch() {
+  var cmd = 'git checkout . ; git clean -f -d -e node_modules -e site';
+  log('clean branch:', cmd);
+  execSync(cmd);
+}
+
+/*
+ * Checkout previous branch
+ */
+function checkoutPrevBranch() {
+  var cmd = 'git checkout -';
+  log('checkout previous branch:', cmd);
+  execSync(cmd);
+}
+
+/*
+ * Create symbolic link from new version to orig version
+ */
+function createSymbolicLink() {
+  var cmd = 'rm -rf ' + buildDir + '/v/' + argv.docsVersion + ' && ln -nsf ' + argv.targetVersion + ' ' + buildDir + '/v/' + argv.docsVersion;
+  log('creating symbolic link:', cmd);
+  execSync(cmd);
+}
+
+/*
+ * Get all versions linked to version being deleted
+ * Throw error if version to be deleted is a targeted symlink for other versions
+ * and there are linked versions but --delete-links aren't set to true.
+ */
+function getLinkedVersion() {
+  var file = buildDir + '/versions.json';
+  log('reading version file:', file);
+  var content = fs.readFileSync(file, 'utf-8');
+  log('content:', content);
+
+  var json = JSON.parse(content);
+
+  var target = _.find(json, function(row) {
+    return row.version === argv.docsVersion;
+  });
+  log('target:', target);
+
+  if (!target) {
+    throw new Error('Version to be deleted does not exist in versions.json file.');
+  }
+
+  var links = [];
+
+  if (!target.link) {
+    // this version is not a symbolic link version
+    links = _.filter(json, function(row) {
+      return row.targetVersion === target.version;
+    });
+    log('links:', links);
+
+    if (links.length && !argv.deleteLinks) {
+      // there are other versions linking to this version, can't delete it
+      var msg = 'Cannot remove version because it is linked to by the following verions: ' +
+        _.map(links, function(row) {
+          return row.version;
+        }).join(', ');
+      msg += '\nYou can rerun the delete command with the --delete-links option to also remove all versions linked to this.';
+      throw new Error(msg);
+    }
+  }
+
+  // got here means we can remove the version
+  return _.map(links, function(row) {
+    return row.version;
+  });
+}
+
+/*
+ * Remove version directory from "v" directory inside the build directory
+ */
+function removeVersionDirectory(version) {
+  var cmd = 'rm -rf ' + buildDir + '/v/' + version;
+  log('Removing existing version directory:', cmd);
+  execSync(cmd);
+}
+
+/*
+ * Build a version
+ */
+function build() {
+  initBuildDir();
+  copyCustomDirToBuildDir();
+  
+  if (!argv.buildSkipDeployedVersions) {
+    copyDeployBranchToBuildDir();
+  }
+
+  checkoutGitTag();
+  injectCustomDirectory();
+  injectCustomTheme();
+  runMkdocsBuildCommand();
+  updateVersionsJson('add');
+  cleanGitBranch();
+  checkoutPrevBranch();
+  copyLatestVersionToBuildRoot();
+  moveCustomDirectoryToBuildRoot();
+
+}
+
+/*
+ * remove a version
+
+ */
+function deleteVersion() {
+  initBuildDir();
+  copyCustomDirToBuildDir();
+
+  if (!argv.buildSkipDeployedVersions) {
+    copyDeployBranchToBuildDir();
+  }
+
+  var linkedVersions = getLinkedVersion();
+  linkedVersions.push(argv.docsVersion);
+  log('these versions will be deleted:', linkedVersions);
+  _.each(linkedVersions, function(version) {
+    latestVersion = undefined;
+    removeVersionDirectory(version);
+    updateVersionsJson('delete', version);
+  });
+
+  copyLatestVersionToBuildRoot();
+  moveCustomDirectoryToBuildRoot();
+
+}
+
+/*
+ * creates a symbolic link from one version to another
+ */
+function link() {
+  if (argv.docsVersion === argv.targetVersion) {
+    // docs-version and target-verion cannot be the same
+    throw new Error('Cannot link docs-version to itself.')
+  }
+
+  initBuildDir();
+  copyCustomDirToBuildDir();
+
+  if (!argv.buildSkipDeployedVersions) {
+    copyDeployBranchToBuildDir();
+  }
+  createSymbolicLink();
+  updateVersionsJson('link');
+  copyLatestVersionToBuildRoot();
+  moveCustomDirectoryToBuildRoot();
+
+}
+
+log('command:', argv._[0]);
+log('gitTag:', argv.gitTag);
+log('docs-version:', argv.docsVersion);
+log('buildDir:', buildDir);
+log('customDir:', customDir);
+log('versionDir:', versionDir);
+
+switch(argv._[0]) {
+  case 'build':
+    build();
+    break;
+  case 'delete':
+    deleteVersion();
+    break;
+  case 'link':
+    link();
+    break;
+  case 'deploy':
+    deployBuildDir();
+    break;
+
+}

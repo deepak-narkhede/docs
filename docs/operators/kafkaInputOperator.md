@@ -1,9 +1,9 @@
-KAFKA INPUT OPERATOR
+Kafka Input Operator
 =====================
 
-### Introduction: About Kafka Input Operator
+### Introduction
 
-This is an input operator that consumes data from Kafka messaging system for further processing in Apex. Kafka Input Operator is an fault-tolerant and scalable Malhar Operator.
+This is an input operator that consumes data from Kafka messaging system for further processing in Apex. Kafka Input Operator is a fault-tolerant and scalable Malhar Operator.
 
 ### Why is it needed ?
 
@@ -308,3 +308,120 @@ the application):
   <value>node21:2181</value>
 </property>
 ```
+# Using KafkaInput Operator in a Kerberised Environment
+
+You can use the KafkaInput operator in a Kerberised environment using one of the following methods: 
+* Operator Properties Method
+* Application Package Method
+* Command Line Method
+
+## Operator Properties Method
+
+To use this method, do the following:
+
+1. Configure and use the current operator properties by copying the **keytab** and **jaas** file on all the kafka nodes. 
+2. After the **client_jaas** file and **keytab** are available on all the nodes, add the operator properties as shown below and provide the corresponding environment properties:
+
+```xml
+<property>
+  <name>dt.operator.kafkaOutput.prop.properties(security.protocol)</name>
+  <value>SASL_PLAINTEXT</value>
+</property>
+
+  <property>
+    <name>dt.operator.kafkaOutput.prop.properties(sasl.kerberos.service.name)</name>
+    <value>kafka</value>
+  </property>
+
+   <property>
+    <name>dt.attr.CONTAINER_JVM_OPTIONS</name>
+    <value>-Djava.security.auth.login.config=/path/to/kafka_client_jaas.con</value>
+  </property>
+
+  <property>
+    <name>dt.operator.kafkaOutput.prop.topic</name>
+    <value>lat_long_lookup</value>
+  </property>
+  <property>
+    <name>dt.operator.kafkaOutput.prop.properties(bootstrap.servers)</name>
+    <value>${apex.app-param.server-kafka-input-brokers}</value>
+  </property>
+  <property>
+    <name>dt.operator.kafkaOutput.prop.properties(key.serializer)</name>
+    <value>org.apache.kafka.common.serialization.StringSerializer</value>
+  </property>
+```
+The **Kafka_client_jaas.con** file should have content similar to the following config:
+
+```xml
+KafkaClient {
+    com.sun.security.auth.module.Krb5LoginModule required
+    useKeyTab=true
+    storeKey=true
+    keyTab="/etc/security/keytabs/kafka_client.keytab"
+    principal="kafka-client-1@EXAMPLE.COM";
+};
+```
+
+## Application Package Method
+
+To use this method, do the following to ensure that the **keytab** and **jaas** files are available with the application package:
+
+1. Include the following property in **apppackage.xml** file:
+```xml
+<fileSet>
+ <directory>${basedir}/</directory>
+ <outputDirectory>/lib</outputDirectory>
+ <includes>
+   <include>kaf*.*</include>
+ </includes>
+</fileSet>
+```
+2. Put the keytab and kafka_client_jaas file with **.jar** extension in the base directory, that is the directory parallel to **pom.xml** file.
+3. Use the following properties to load the **jaas_conf** file. This will ensure that the **kafka_client_keytab.jar** and **kafka_client_jaas.jar** are available in the classpath while the application is running.
+
+```xml
+<property>
+  <name>dt.operator.kafkaOutput.prop.properties(security.protocol)</name>
+  <value>SASL_PLAINTEXT</value>
+</property>
+
+  <property>
+    <name>dt.operator.kafkaOutput.prop.properties(sasl.kerberos.service.name)</name>
+    <value>kafka</value>
+  </property>
+
+  <property>
+    <name>dt.attr.CONTAINER_JVM_OPTIONS</name>
+    <value>-Djava.security.auth.login.config=./kafka_client_jaas.jar</value>
+  </property>
+
+  <property>
+    <name>dt.operator.kafkaOutput.prop.topic</name>
+    <value>lat_long_lookup</value>
+  </property>
+  <property>
+    <name>dt.operator.kafkaOutput.prop.properties(bootstrap.servers)</name>
+    <value>${apex.app-param.server-kafka-input-brokers}</value>
+  </property>
+  <property>
+    <name>dt.operator.kafkaOutput.prop.properties(key.serializer)</name>
+    <value>org.apache.kafka.common.serialization.StringSerializer</value>
+  </property>
+
+
+KafkaClient {
+    com.sun.security.auth.module.Krb5LoginModule required
+    useKeyTab=true
+    storeKey=true
+    keyTab="./kafka_client_keytab.jar"
+    principal="kafka-client-1@EXAMPLE.COM";
+};
+```
+
+## Command Line Method
+
+While launching through command line, add the 
+**keytab** and **jaas** files in the libjars command line option. These will copy to the classpath.  
+**Note:** This approach will work only through command line.
+
